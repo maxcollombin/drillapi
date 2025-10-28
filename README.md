@@ -1,4 +1,6 @@
 # drillapi
+[![CI](https://github.com/SFOE/drillapi/actions/workflows/ci.yml/badge.svg)](https://github.com/SFOE/drillapi/actions/workflows/ci.yml)
+
 New backend for ich-tanke-strom
 
 ## Startup
@@ -15,6 +17,13 @@ Install dependencies
 
 ```pip install -r requirements.txt``
 
+Install pre-commit and activate it
+
+```pip install pre-commit```
+```pre-commit install```
+
+Run pre-commit manually
+```pre-commit run --all-files```
 
 Run dev server locally
 
