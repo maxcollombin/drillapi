@@ -1,30 +1,29 @@
-from typing import Union
 from typing import Annotated
 
-from fastapi import FastAPI, Path, Query
+from fastapi import FastAPI, Path, Request
 
-from settings_cantons import cantons
-from slowapi import Limiter
+from settings_values import cantons, globals
+
+from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
-from fastapi.responses import JSONResponse
 
-# Initialize the Limiter
+# Create rate limiter
 limiter = Limiter(key_func=get_remote_address)
-app.state.limiter = limiter
-app.add_exception_handler(
-    RateLimitExceeded,
-    lambda request, exc: JSONResponse(
-        status_code=429,
-        content={"detail": "Rate limit exceeded. Please try again later."},
-    ),
-)
 
+
+# start the app
 app = FastAPI()
 
+# Register exception handler for rate limit errors
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
-@app.get("/v1/{coord_x}/{coord_y}", dependencies=[limiter.limit("10/minute")])
+
+@app.get("/v1/{coord_x}/{coord_y}")
+@limiter.limit(globals.RATE_LIMIT)
 async def get_drill_category(
+    request: Request,
     coord_x: Annotated[
         float,
         Path(title="X coordinate of the location in EPSG:2056", gt=2400000, le=2900000),
@@ -46,6 +45,9 @@ async def get_drill_category(
 """Display list of cantons available in the API."""
 
 
-@app.get("/v1/cantons", dependencies=[limiter.limit("10/minute")])
-async def get_drill_category():
+@app.get("/v1/cantons")
+@limiter.limit(globals.RATE_LIMIT)
+async def get_drill_category(
+    request: Request,
+):
     return cantons.CANTONS_LIST
