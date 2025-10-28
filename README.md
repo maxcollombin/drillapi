@@ -7,7 +7,9 @@ New backend for ich-tanke-strom
 
 Create python virtual environment
 
-```python3 -m venv venv```
+```bash
+python3 -m venv venv
+```
 
 Activate python virtual environment
 
