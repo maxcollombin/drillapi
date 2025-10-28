@@ -39,11 +39,6 @@ jobs:
           # run black in check mode; CI will fail if formatting issues are present
           python -m black --check .
 
-      - name: Lint: black
-        run: |
-          # run black in check mode; CI will fail if formatting issues are present
-          python -m black --check .
-
       - name: Run tests
         run: |
           pytest -q

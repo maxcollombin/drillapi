@@ -15,21 +15,29 @@ Activate python virtual environment
 
 Install dependencies
 
-```pip install -r requirements.txt``
+```bash
+pip install -r requirements.txt
+```
 
 Install pre-commit and activate it
 
-```pip install pre-commit```
-```pre-commit install```
+```bash
+pip install pre-commit
+pre-commit install
+```
 
 Run pre-commit manually
-```pre-commit run --all-files```
+```bash
+pre-commit run --all-files
+```
 
 Run dev server locally
 
-```fastapi dev src/main.py```
+```bash
+uvicorn src.main:app --reload --host 0.0.0.0 --port 8000
+```
 
-Check everything is fine a
+Check everything is fine
 
 Main route v1
 
