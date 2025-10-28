@@ -4,11 +4,26 @@ from typing import Annotated
 from fastapi import FastAPI, Path, Query
 
 from settings_cantons import cantons
+from slowapi import Limiter
+from slowapi.util import get_remote_address
+from slowapi.errors import RateLimitExceeded
+from fastapi.responses import JSONResponse
+
+# Initialize the Limiter
+limiter = Limiter(key_func=get_remote_address)
+app.state.limiter = limiter
+app.add_exception_handler(
+    RateLimitExceeded,
+    lambda request, exc: JSONResponse(
+        status_code=429,
+        content={"detail": "Rate limit exceeded. Please try again later."},
+    ),
+)
 
 app = FastAPI()
 
 
-@app.get("/v1/{coord_x}/{coord_y}")
+@app.get("/v1/{coord_x}/{coord_y}", dependencies=[limiter.limit("10/minute")])
 async def get_drill_category(
     coord_x: Annotated[
         float,
@@ -31,6 +46,6 @@ async def get_drill_category(
 """Display list of cantons available in the API."""
 
 
-@app.get("/v1/cantons")
+@app.get("/v1/cantons", dependencies=[limiter.limit("10/minute")])
 async def get_drill_category():
     return cantons.CANTONS_LIST
