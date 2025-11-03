@@ -1,3 +1,4 @@
+import json
 from typing import Annotated
 
 from fastapi import FastAPI, Path, Request
@@ -39,8 +40,9 @@ async def get_drill_category(
 
     # Get canton corresponding to the coordinates using geoadmin api
     canton = get_canton_from_coordinates(coord_x, coord_y)
+    code_canton = canton[0]["attributes"]["ak"]
 
-    return {"coord_x": coord_x, "coord_y": coord_y, "canton": canton}
+    return {"coord_x": coord_x, "coord_y": coord_y, "canton": code_canton}
 
 
 """Display list of cantons available in the API."""
