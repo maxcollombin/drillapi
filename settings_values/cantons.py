@@ -1,5 +1,5 @@
-CANTONS_LIST = [
-    {
+CANTONS = {
+    "ZH": {
         "name": "ZH",
         "exampleLocation": [
             [2679004, 1247702, 2, "Auflagen & waermenutzung-zone-d"],
@@ -70,7 +70,7 @@ CANTONS_LIST = [
             {"sum": 60, "value": 1},
         ],
     },
-    {
+    "ZG": {
         "name": "ZG",
         "exampleLocation": [
             [2676912, 1228091, 1, "mit Standardauflagen zulässig"],
@@ -97,7 +97,7 @@ CANTONS_LIST = [
             {"sum": 3, "value": 3},
         ],
     },
-    {
+    "VS": {
         "name": "VS",
         "exampleLocation": [
             [2578159, 1112802, 1, "CLASSGV 1"],
@@ -149,7 +149,7 @@ CANTONS_LIST = [
             {"sum": 4, "value": 4},
         ],
     },
-    {
+    "VD": {
         "name": "VD",
         "exampleLocation": [
             [2536682, 1156974, 1, "Admissible sous conditions"],
@@ -183,7 +183,7 @@ CANTONS_LIST = [
             {"sum": 3, "value": 3},
         ],
     },
-    {
+    "UR": {
         "name": "UR",
         "exampleLocation": [
             [2703052, 1180378, 1, "B"],
@@ -224,7 +224,7 @@ CANTONS_LIST = [
             {"sum": 3, "value": 3},
         ],
     },
-    {
+    "ZI": {
         "name": "TI",
         "exampleLocation": [[2715738, 1125797, 3], [2713214, 1131638, 1]],
         "wmsUrl": "https://wms.geo.ti.ch/service",
@@ -253,7 +253,7 @@ CANTONS_LIST = [
             {"sum": 3, "value": 3},
         ],
     },
-    {
+    "TG": {
         "name": "TG",
         "exampleLocation": [
             [2747716.6, 1262056.4, 3, "EWS grundsätzlich unzulässig"],
@@ -303,7 +303,7 @@ CANTONS_LIST = [
             {"sum": 3, "value": 3},
         ],
     },
-    {
+    "SZ": {
         "name": "SZ",
         "exampleLocation": [
             [2707885, 1226453, 1],
@@ -333,7 +333,7 @@ CANTONS_LIST = [
             {"sum": 3, "value": 3},
         ],
     },
-    {
+    "SH": {
         "name": "SH",
         "exampleLocation": [
             [2690343, 1289821, 1, "3"],
@@ -379,7 +379,7 @@ CANTONS_LIST = [
             {"sum": 3, "value": 3},
         ],
     },
-    {
+    "SG": {
         "name": "SG",
         "exampleLocation": [
             [2733447, 1241435, 2, "1"],
@@ -417,7 +417,7 @@ CANTONS_LIST = [
             {"sum": 3, "value": 3},
         ],
     },
-    {
+    "OW": {
         "name": "OW",
         "exampleLocation": [
             [2664351, 1193538, 1, "zulaessig"],
@@ -475,7 +475,7 @@ CANTONS_LIST = [
             {"sum": 3, "value": 3},
         ],
     },
-    {
+    "NW": {
         "name": "NW",
         "exampleLocation": [
             [2671744, 1196809, 3, "bautechnisch_bauverbot"],
@@ -541,7 +541,7 @@ CANTONS_LIST = [
             {"sum": 3, "value": 3},
         ],
     },
-    {
+    "LU": {
         "name": "LU",
         "exampleLocation": [
             [2665393, 1217714, 1, "ews_zulaessig"],
@@ -590,7 +590,7 @@ CANTONS_LIST = [
             {"sum": 3, "value": 3},
         ],
     },
-    {
+    "GR": {
         "name": "GR",
         "exampleLocation": [
             [2745188, 1187042, 1, "zulässig"],
@@ -616,7 +616,7 @@ CANTONS_LIST = [
             {"sum": 3, "value": 3},
         ],
     },
-    {
+    "GL": {
         "name": "GL",
         "exampleLocation": [
             [2724237, 1206147, 3, "Erdsondenausschlussgebiet"],
@@ -636,7 +636,7 @@ CANTONS_LIST = [
         ],
         "harmonyMap": [{"sum": 2, "value": 2}, {"sum": 3, "value": 3}],
     },
-    {
+    "GE": {
         "name": "GE",
         "exampleLocation": [
             [2510785, 1121097, 1, "Sondes géothermiques verticales (système fermé)"],
@@ -672,7 +672,7 @@ CANTONS_LIST = [
             {"sum": 3, "value": 3},
         ],
     },
-    {
+    "FR": {
         "name": "FR",
         "exampleLocation": [
             [2582124, 1164966, 1, "SGV autorisées"],
@@ -706,7 +706,7 @@ CANTONS_LIST = [
             {"sum": 3, "value": 3},
         ],
     },
-    {
+    "BL": {
         "name": "BL",
         "exampleLocation": [
             [2622256, 1258565, 1, "BC"],
@@ -759,7 +759,7 @@ CANTONS_LIST = [
             {"sum": 4, "value": 4},
         ],
     },
-    {
+    "BE": {
         "name": "BE",
         "exampleLocation": [
             [2599525, 1201544, 1, "1"],
@@ -800,7 +800,7 @@ CANTONS_LIST = [
             {"sum": 3, "value": 3},
         ],
     },
-    {
+    "AR": {
         "name": "AR",
         "exampleLocation": [
             [2755488, 1249846, 1, "zulässig (siehe Erläuterungen)"],
@@ -833,7 +833,7 @@ CANTONS_LIST = [
             {"sum": 3, "value": 3},
         ],
     },
-    {
+    "AI": {
         "name": "AI",
         "exampleLocation": [
             [2751274, 1244545, 1, "zulässig (siehe Erläuterungen)"],
@@ -859,7 +859,7 @@ CANTONS_LIST = [
             {"sum": 3, "value": 3},
         ],
     },
-    {
+    "AG": {
         "name": "AG",
         "exampleLocation": [
             [2655805, 1258983, 2, "3"],
@@ -905,4 +905,4 @@ CANTONS_LIST = [
             {"sum": 3, "value": 3},
         ],
     },
-]
+}
