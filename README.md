@@ -53,4 +53,18 @@ OpenAPI doc
 ```http://127.0.0.1:8000/docs```
 
 
+## Using Docker Compose
 
+```docker compose up -d --build && docker compose logs -f fastapi-app```
+
+
+## Using Docker
+
+Build local image
+
+```docker build -t fastapi-app .```
+
+Run container
+
+
+```docker run -d -p 8000:8000 --name fastapi_container fastapi-app```
