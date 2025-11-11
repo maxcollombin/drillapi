@@ -31,11 +31,9 @@ Run pre-commit manually
 pre-commit run --all-files
 ```
 
-Run dev server locally
+Run dev server locally with uvicorn
 
-```bash
-uvicorn src.main:app --reload --host 0.0.0.0 --port 8000
-```
+```python -m src.main```
 
 Check everything is fine
 

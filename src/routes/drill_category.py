@@ -17,19 +17,19 @@ async def get_drill_category(
 ):
     """Return ground category at a given coordinate using WMS GetFeatureInfo."""
 
-    # Determine canton
+    # 1️⃣ Determine canton
     canton_result = services.get_canton_from_coordinates(coord_x, coord_y)
     if not canton_result:
-        raise HTTPException(404, detail="Canton not found for these coordinates")
+        raise HTTPException(404, detail="No canton found for these coordinates")
 
     code_canton = canton_result[0]["attributes"]["ak"]
 
-    # Load canton configuration
+    # 2️⃣ Load canton configuration
     config = cantons.CANTONS["cantons_configurations"].get(code_canton)
     if not config:
         raise HTTPException(404, f"Configuration for canton {code_canton} not found!")
 
-    # Build WMS GetFeatureInfo parameters
+    # 3️⃣ Build WMS request parameters
     delta = 10
     bbox = f"{coord_x - delta},{coord_y - delta},{coord_x + delta},{coord_y + delta}"
     layers_list = ",".join([layer["name"] for layer in config["layers"]])
@@ -47,34 +47,59 @@ async def get_drill_category(
         "HEIGHT": "101",
         "BBOX": bbox,
     }
-
     wms_url = config["wmsUrl"]
-    logger.info(f"WMS request: {wms_url} with params {params_wms}")
+    logger.info(f"WMS request: {wms_url} {params_wms}")
 
-    # Make async WMS request
-    async with httpx.AsyncClient(timeout=20.0) as client:
-        try:
+    ground_category = []
+    error_detail = None
+    try:
+        async with httpx.AsyncClient(timeout=20.0) as client:
             resp = await client.get(wms_url, params=params_wms)
             resp.raise_for_status()
-            ground_type = await services.parse_wms_getfeatureinfo(
+            ground_category = await services.parse_wms_getfeatureinfo(
                 resp.content, config["infoFormat"]
             )
-        except Exception as e:
-            raise HTTPException(
-                404,
-                detail={
-                    "message": f"Failed WMS call for canton {code_canton}",
-                    "wms_full_url": str(resp.url if "resp" in locals() else wms_url),
-                    "wms_url": wms_url,
-                    "wms_params": params_wms,
-                    "response_content": resp.text if "resp" in locals() else None,
-                    "exception": str(e),
-                },
-            )
+
+        if isinstance(ground_category, dict) and "raw" in ground_category:
+            # Raw response → treat as error
+            status = "error"
+            error_detail = {
+                "message": "WMS returned raw text instead of features",
+                "response_content": ground_category["raw"],
+            }
+            ground_category = []
+        elif isinstance(ground_category, list) and not ground_category:
+            # Empty features → treat as error
+            status = "error"
+            error_detail = {
+                "message": "WMS returned empty feature list",
+                "response_content": resp.text,
+            }
+        else:
+            status = "success"
+
+    except HTTPException as e:
+        raise e
+    except Exception as e:
+        status = "error"
+        ground_category = []
+        error_detail = {
+            "message": f"Failed WMS call for canton {code_canton}",
+            "wms_full_url": str(resp.url if "resp" in locals() else wms_url),
+            "wms_url": wms_url,
+            "wms_params": params_wms,
+            "response_content": resp.text if "resp" in locals() else None,
+            "exception": str(e),
+        }
 
     return {
         "coord_x": coord_x,
         "coord_y": coord_y,
         "canton": code_canton,
-        "ground_category": ground_type,
+        "ground_category": ground_category,
+        "status": status,
+        "error": error_detail,
+        "wms_url": wms_url,
+        "full_wms_url": str(resp.url if "resp" in locals() else wms_url),
+        "wms_params": params_wms,
     }

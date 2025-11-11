@@ -2,6 +2,9 @@ import httpx
 import json
 import xml.etree.ElementTree as ET
 from fastapi import HTTPException
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def get_canton_from_coordinates(coord_x: float, coord_y: float):
@@ -41,7 +44,10 @@ async def parse_wms_getfeatureinfo(content: bytes, info_format: str):
 
     if "json" in info_format:
         try:
-            return json.loads(text)
+            data = json.loads(text)
+            if not data:
+                logger.warning("WMS JSON response is empty")
+            return data
         except Exception as e:
             raise HTTPException(500, detail=f"Failed to parse JSON WMS response: {e}")
 
@@ -63,10 +69,15 @@ async def parse_wms_getfeatureinfo(content: bytes, info_format: str):
                     feature_data[tag] = child.text
                 features.append(feature_data)
 
+            if not features:
+                logger.warning("WMS GML response contains no features")
             return features
+
         except Exception as e:
             raise HTTPException(500, detail=f"Failed to parse GML WMS response: {e}")
 
     else:
-        # fallback: return raw text
-        return {"raw": text}
+        # Treat unknown/raw formats as errors
+        raise HTTPException(
+            500, detail=f"Unsupported WMS info format or raw response: {text}"
+        )
