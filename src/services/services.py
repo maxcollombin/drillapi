@@ -81,3 +81,50 @@ async def parse_wms_getfeatureinfo(content: bytes, info_format: str):
         raise HTTPException(
             500, detail=f"Unsupported WMS info format or raw response: {text}"
         )
+
+
+def process_ground_category(
+    ground_features: list, config_layers: list, harmony_map: list
+):
+    """
+    Process raw WMS features into structured ground category values per canton config.
+
+    Args:
+        ground_features: List of dicts returned by parse_wms_getfeatureinfo.
+        config_layers: List of layer configs, each with 'name', 'propertyName', 'propertyValues'.
+        harmony_map: Mapping of value to end, harmonized ones.
+
+    Returns:
+        List of dicts: [{"layer": layer_name, "propertyName": str, "value": str}, ...]
+    """
+    result = []
+
+    for layer_cfg in config_layers:
+        layer_name = layer_cfg.get("name")
+        property_name = layer_cfg.get("propertyName")
+        property_values = layer_cfg.get("propertyValues", [])
+
+        summand = None
+
+        # Find matching feature
+        for feature in ground_features:
+            original_ground_category = feature[property_name]
+
+            for item in property_values:
+                if item["name"] == original_ground_category:
+                    summand = item["summand"]
+                    description = item["desc"]
+                    break
+
+            # TODO: harmonize data using harmony_map
+
+        result.append(
+            {
+                "layer": layer_name,
+                "propertyName": property_name,
+                "summand": summand,
+                "description": description,
+            }
+        )
+
+    return result

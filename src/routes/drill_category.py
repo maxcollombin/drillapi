@@ -75,6 +75,11 @@ async def get_drill_category(
                 "response_content": resp.text,
             }
         else:
+            ground_category_summand = services.process_ground_category(
+                ground_category, config["layers"], config["harmonyMap"]
+            )
+            print("----------------////////////")
+            print(ground_category_summand)
             status = "success"
 
     except HTTPException as e:
