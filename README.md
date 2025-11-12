@@ -3,22 +3,26 @@
 
 New backend for kann ich bohren
 
-## Startup
+## Setup
 
 Create .env file and :warning: adapt values :warning:
 
 Special attention to the ```ENVIRONMENT``` value, MUST never be set to ```DEV``` in production environnement
 
-```cp env.example .env```
-
+```bash
+cp env.example .env
+```
 
 Create python virtual environment
 
-```python3 -m venv venv```
+```bash
+python3 -m venv venv
+```
 
 Activate python virtual environment
-
-```source venv/bin/activate```
+```bash
+source venv/bin/activate
+```
 
 Install dependencies
 
@@ -38,51 +42,86 @@ Run pre-commit manually
 pre-commit run --all-files
 ```
 
+## Start
 
 Run dev server locally with fast api dev server
 
-```fastapi dev src/main.py```
+```bash
+fastapi dev src/main.py
+```
 
 Run dev server locally with uvicorn
 
-```python -m src.main```
+```bash
+python -m src.main
+```
 
-Check everything is fine
-
-Main route v1
-
-```http://127.0.0.1:8000/v1/2602531.09/1202835.00```
-
-
-Canton's configuration v1
-
-```http://127.0.0.1:8000/v1/cantons```
+## Explore
 
 OpenAPI doc
 
-```http://127.0.0.1:8000/docs```
+```bash
+http://127.0.0.1:8000/docs
+```
+
+Checker that sends predefined calls to all configured cantons - IP restricted ⚠️
+
+```bash
+http://127.0.0.1:8000/checker
+```
+
+Main route v1
+
+```bash
+http://127.0.0.1:8000/v1/drill-category/2602531.09/1202835.00
+```
+
+Canton's configuration v1
+
+```bash
+http://127.0.0.1:8000/v1/cantons
+```
+
+Canton's configuration v1 for one canton's code ("NE", "BE")
+
+```bash
+http://127.0.0.1:8000/v1/cantons/NE
+```
+
+## Test
 
 Run tests
 
-```python -m pytest -v```
+```bash
+python -m pytest -v
+```
 
 Run only service avaibility checker test
 
-```python -m pytest tests/test_services.py```
+```bash
+python -m pytest tests/test_services.py
+```
+
+## Deploy
+
+### Using Docker Compose
+
+```bash
+docker compose up -d --build && docker compose logs -f fastapi-app
+```
 
 
-## Using Docker Compose
-
-```docker compose up -d --build && docker compose logs -f fastapi-app```
-
-
-## Using Docker
+### Using Docker
 
 Build local image
 
-```docker build -t fastapi-app .```
+```bash
+docker build -t fastapi-app .
+```
 
 Run container
 
 
-```docker run -d -p 8000:8000 --name fastapi_container fastapi-app```
+```bash
+docker run -d -p 8000:8000 --name fastapi_container fastapi-app
+```
