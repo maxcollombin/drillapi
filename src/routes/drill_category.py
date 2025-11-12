@@ -17,19 +17,16 @@ async def get_drill_category(
 ):
     """Return ground category at a given coordinate using WMS GetFeatureInfo."""
 
-    # 1️⃣ Determine canton
     canton_result = services.get_canton_from_coordinates(coord_x, coord_y)
     if not canton_result:
         raise HTTPException(404, detail="No canton found for these coordinates")
 
     code_canton = canton_result[0]["attributes"]["ak"]
 
-    # 2️⃣ Load canton configuration
     config = cantons.CANTONS["cantons_configurations"].get(code_canton)
     if not config:
         raise HTTPException(404, f"Configuration for canton {code_canton} not found!")
 
-    # 3️⃣ Build WMS request parameters
     delta = 10
     bbox = f"{coord_x - delta},{coord_y - delta},{coord_x + delta},{coord_y + delta}"
     layers_list = ",".join([layer["name"] for layer in config["layers"]])

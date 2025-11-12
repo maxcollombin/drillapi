@@ -1,55 +1,55 @@
 from fastapi import APIRouter, Request, Depends
-from fastapi.responses import StreamingResponse
+from fastapi.templating import Jinja2Templates
+from fastapi.responses import HTMLResponse
 from settings_values import cantons
 from src.services.security import verify_ip
-import httpx, json, urllib.parse
+import httpx, json
 
 router = APIRouter()
+templates = Jinja2Templates(directory="src/templates")
 
 
-@router.get(
-    "/checker/", response_class=StreamingResponse, dependencies=[Depends(verify_ip)]
-)
+@router.get("/checker/", response_class=HTMLResponse, dependencies=[Depends(verify_ip)])
 async def checker(request: Request):
     config = cantons.CANTONS["cantons_configurations"]
+    results = []
 
-    async def generator():
-        yield "<html><head><style>pre{white-space:pre-wrap;} .error-box{width:80vw;margin:10px auto;background:#f8d7da;padding:10px;overflow-x:auto;font-size:0.9em;} summary{cursor:pointer;font-weight:bold;}</style></head><body><pre>"
-        yield "<h2>Service Availability Checker</h2>"
+    async with httpx.AsyncClient(base_url="http://localhost:8000") as client:
+        for canton, data in config.items():
+            canton_results = {"canton": canton, "checks": []}
+            for location in data["exampleLocation"]:
+                url = f"/v1/drill-category/{location[0]}/{location[1]}"
+                check = {"url": url, "success": False, "status": None, "content": None}
+                try:
+                    resp = await client.get(url, timeout=60.0)
+                    check["status"] = resp.status_code
 
-        async with httpx.AsyncClient(base_url="http://localhost:8000") as client:
-            for canton, data in config.items():
-                yield f"<strong>Checking service for {canton}</strong>\n"
-                for location in data["exampleLocation"]:
-                    url = f"/v1/drill-category/{location[0]}/{location[1]}"
-                    yield f" - Checking {url} ... "
-                    try:
-                        resp = await client.get(url, timeout=60.0)
-                        if resp.status_code == 200:
-                            json_content = resp.json()
-                            yield f"""
-<details class="error-box" style="background:#d4edda;border:1px solid #c3e6cb;">
-<summary>✅ Success - Click to view details</summary>
-<pre>{json.dumps(json_content, indent=2)}</pre>
-</details>
-"""
-                        else:
-                            content = (
-                                resp.json()
-                                if resp.headers.get("content-type")
-                                == "application/json"
-                                else resp.text
-                            )
-                            yield f"""
-<details class="error-box">
-<summary>❌ Failed (HTTP {resp.status_code})</summary>
-<pre>{content}</pre>
-</details>
-"""
-                    except Exception as e:
-                        yield f"<details class='error-box'><summary>❌ Request Error</summary>{e}</details>"
-                yield "\n"
+                    # Check request
+                    if resp.status_code == 200:
+                        # check request content to define if result is a real success as query might return 200 but empty result or error message as text
 
-        yield "<strong>All checks completed.</strong></pre></body></html>"
+                        if resp.json()["status"] == "sucess":
+                            check["success"] = True
 
-    return StreamingResponse(generator(), media_type="text/html")
+                        check["content"] = json.dumps(resp.json(), indent=2)
+                    else:
+                        content = (
+                            resp.json()
+                            if resp.headers.get("content-type") == "application/json"
+                            else resp.text
+                        )
+                        check["content"] = content
+                except Exception as e:
+                    check["error"] = str(e)
+
+                canton_results["checks"].append(check)
+
+            results.append(canton_results)
+
+    return templates.TemplateResponse(
+        "checker.html",
+        {
+            "request": request,
+            "results": results,
+        },
+    )

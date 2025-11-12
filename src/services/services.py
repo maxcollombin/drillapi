@@ -44,10 +44,10 @@ async def parse_wms_getfeatureinfo(content: bytes, info_format: str):
 
     if "json" in info_format:
         try:
-            data = json.loads(text)
-            if not data:
+            features = json.loads(text)
+            if not features:
                 logger.warning("WMS JSON response is empty")
-            return data
+            return features
         except Exception as e:
             raise HTTPException(500, detail=f"Failed to parse JSON WMS response: {e}")
 
