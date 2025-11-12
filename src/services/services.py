@@ -85,21 +85,40 @@ async def fetch_features_for_point(coord_x: float, coord_y: float, config: dict)
             logger.info("WMS request: %s %s", wms_url, params_wms)
             resp = await client.get(wms_url, params=params_wms)
             resp.raise_for_status()
-            features = await parse_wms_getfeatureinfo(resp.content, config["infoFormat"])
+            features = await parse_wms_getfeatureinfo(
+                resp.content, config["infoFormat"]
+            )
 
     return features
 
 
 async def parse_wms_getfeatureinfo(content: bytes, info_format: str):
     """
-    Parse WMS GetFeatureInfo response content depending on infoFormat.
-    Supports JSON, GeoJSON, GML/XML.
-    Returns a Python dict (for JSON) or list of feature dictionaries (for GML).
+    Parse WMS GetFeatureInfo or ESRI REST feature response depending on infoFormat.
+    Supports JSON, GeoJSON, GML/XML, and ArcGIS REST JSON ('arcgis/json').
+    Returns a list of feature dictionaries.
     """
     text = content.decode("utf-8")
     info_format = info_format.lower()
 
-    if "json" in info_format:
+    if "arcgis/json" in info_format:
+        try:
+            data = json.loads(text)
+            features = []
+
+            # ESRI REST: data['features'][i]['attributes']
+            if "features" in data and isinstance(data["features"], list):
+                for feat in data["features"]:
+                    attr = feat.get("attributes", {})
+                    features.append(attr)
+            else:
+                logger.warning("ESRI JSON response contains no features")
+            return features
+
+        except Exception as e:
+            raise HTTPException(500, detail=f"Failed to parse ESRI JSON response: {e}")
+
+    elif "json" in info_format:
         try:
             features = json.loads(text)
             if not features:

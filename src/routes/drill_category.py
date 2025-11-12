@@ -27,7 +27,9 @@ async def get_drill_category(
     code_canton = canton_result[0]["attributes"]["ak"]
     config = cantons.CANTONS["cantons_configurations"].get(code_canton)
     if not config:
-        raise HTTPException(404, detail=f"Configuration for canton {code_canton} not found!")
+        raise HTTPException(
+            404, detail=f"Configuration for canton {code_canton} not found!"
+        )
 
     # --- Fetch features (WMS or ESRI REST) ---
     features = await services.fetch_features_for_point(coord_x, coord_y, config)
