@@ -3,8 +3,8 @@ from fastapi.templating import Jinja2Templates
 from src.routes import drill_category, cantons, checker
 from src.services.security import limiter, rate_limit_handler, RateLimitExceeded
 
-app = FastAPI()
 
+app = FastAPI()
 # Routers
 app.include_router(drill_category.router)
 app.include_router(cantons.router)

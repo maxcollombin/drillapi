@@ -1,15 +1,17 @@
 from fastapi import APIRouter, Request, Path, HTTPException
-from settings_values import cantons, globals
+from settings_values import cantons
 from src.services import services, security
 import httpx
 import logging
+from src.config import settings
+
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
 
 
 @router.get("/v1/drill-category/{coord_x}/{coord_y}")
-@security.limiter.limit(globals.RATE_LIMIT)
+@security.limiter.limit(settings.RATE_LIMIT)
 async def get_drill_category(
     request: Request,
     coord_x: float = Path(..., gt=2400000, le=2900000),

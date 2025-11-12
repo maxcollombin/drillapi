@@ -5,6 +5,11 @@ New backend for kann ich bohren
 
 ## Startup
 
+Create .env file and :warning: adapt values :warning
+
+```cp .env.example .env```
+
+
 Create python virtual environment
 
 ```python3 -m venv venv```

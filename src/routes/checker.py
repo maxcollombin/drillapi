@@ -11,12 +11,37 @@ templates = Jinja2Templates(directory="src/templates")
 
 @router.get("/checker/", response_class=HTMLResponse, dependencies=[Depends(verify_ip)])
 async def checker_page(request: Request):
-    # Renders the main page shell with SSE script
+    """
+    Renders the main Service Availability Checker page.
+
+    This page loads the shell HTML (`checker_stream.html`) and starts the
+    streaming process via the `/checker/stream` endpoint using SSE (Server-Sent Events).
+
+    - **request**: FastAPI Request object
+    - Returns: HTML page
+    """
     return templates.TemplateResponse("checker_stream.html", {"request": request})
 
 
 @router.get("/checker/stream", dependencies=[Depends(verify_ip)])
 async def checker_stream():
+    """
+    Streams service availability check results as Server-Sent Events (SSE).
+
+    Acess is restricted to whitelisted IP addresses
+
+    For each configured canton and example location:
+    - Calls `/v1/drill-category/{coord_x}/{coord_y}`
+    - Returns JSON data for each check:
+        - `canton`: Canton code
+        - `url`: Service URL checked
+        - `status`: HTTP status code
+        - `success`: True/False based on service response
+        - `content`: JSON content of the response
+        - `error`: Error message if request failed
+
+    Sends an `end` event when all checks are completed.
+    """
     config = cantons.CANTONS["cantons_configurations"]
 
     async def event_generator():
