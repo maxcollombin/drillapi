@@ -25,14 +25,14 @@ async def get_drill_category(
         raise HTTPException(404, detail="No canton found for these coordinates")
 
     code_canton = canton_result[0]["attributes"]["ak"]
-    config = cantons.CANTONS["cantons_configurations"].get(code_canton)
-    if not config:
+    canton_config = cantons.CANTONS["cantons_configurations"].get(code_canton)
+    if not canton_config:
         raise HTTPException(
             404, detail=f"Configuration for canton {code_canton} not found!"
         )
 
     # --- Fetch features (WMS or ESRI REST) ---
-    result = await services.fetch_features_for_point(coord_x, coord_y, config)
+    result = await services.fetch_features_for_point(coord_x, coord_y, canton_config)
     features = result["features"]
     if not features:
         status = "error"
@@ -50,13 +50,14 @@ async def get_drill_category(
         }
         # --- Process features into ground category ---
         features = services.process_ground_category(
-            features, config["layers"], config["harmonyMap"]
+            features, canton_config["layers"], canton_config["harmonyMap"]
         )
 
     return {
         "coord_x": coord_x,
         "coord_y": coord_y,
         "canton": code_canton,
+        "canton_config": canton_config,
         "ground_category": features,
         "status": status,
         "result_detail": result_detail,
