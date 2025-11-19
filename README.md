@@ -17,10 +17,30 @@ What does this [FastAPI](https://fastapi.tiangolo.com/) project do ?
 ## Run
 
 This project runs in docker:
-- Latest image: ```docker run --rm ghcr.io/sfoe/drillapi:latest```
-- Latest image: ```docker run --rm ghcr.io/sfoe/drillapi:<vx.y.z>```
 
- Default port is ***8000***
+***Latest image***
+
+ ```bash
+docker run -d \
+  -p 8000:8000 \
+  -e RATE_LIMIT="1000/minute" \
+  -e ALLOWED_IPS='["127.0.0.1","192.168.1.10"]' \
+  -e ALLOWED_ORIGINS='["http://localhost:5173","https://www.uvek-gis.admin.ch/"]' \
+  -e ENVIRONMENT=PROD \
+  ghcr.io/sfoe/drillapi:latest
+```
+
+***Release specific image***
+
+ ```bash
+docker run -d \
+  -p 8000:8000 \
+  -e RATE_LIMIT="1000/minute" \
+  -e ALLOWED_IPS='["127.0.0.1","192.168.1.10"]' \
+  -e ALLOWED_ORIGINS='["http://localhost:5173","https://www.uvek-gis.admin.ch/"]' \
+  -e ENVIRONMENT=PROD \
+  ghcr.io/sfoe/drillapi:<vx.y.z>
+```
 
 ## Local setup for development
 
