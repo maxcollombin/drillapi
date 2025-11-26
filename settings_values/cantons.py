@@ -156,15 +156,14 @@ CANTONS = {
                 [2599214, 1120261, 3, "CLASSGV 4"],
                 [2598068.4, 1130927.1, 4, "CLASSGV 5"],
             ],
-            # "wmsUrl": "https://services1.arcgis.com/rMlsWo8szOzlrpCq/arcgis/rest/services/eso_admissibilite_SVG/FeatureServer/3",
             "wmsUrl": "https://sit.vs.ch/arcgis/services/ENVIRONNEMENT/MapServer/WMSServer",
             "wmsUrlEsriLayer": "3",
-            "legendUrl": "",
+            "legendUrl": "https://sit.vs.ch/arcgis/services/ENVIRONNEMENT/MapServer/WMSServer?request=GetLegendGraphic%26version=1.3.0%26format=image/png%26layer=29",
             "thematic_geoportal_url": "",
-            "infoFormat": "",
+            "infoFormat": "application/geo+json",
             "layers": [
                 {
-                    "name": "SGV_Carte",
+                    "name": "29",
                     "rootName": "features",
                     "nodeName": "attributes",
                     "propertyName": "CLASSGV",
