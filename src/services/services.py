@@ -151,6 +151,8 @@ async def fetch_features_for_point(coord_x: float, coord_y: float, config: dict)
                 wms_url = config["wmsUrl"]
                 try:
                     resp = await client.get(wms_url, params=params_wms)
+                    print("************************")
+                    print(resp.text)
                     full_url = str(resp.request.url)
                     resp.raise_for_status()
                 except Exception as e:
@@ -188,18 +190,22 @@ async def fetch_features_for_point(coord_x: float, coord_y: float, config: dict)
 # ============================================================
 async def parse_wms_getfeatureinfo(content: bytes, info_format: str):
     """
-    Parse WMS GetFeatureInfo or ESRI REST JSON response into Python dicts.
+    Parse WMS GetFeatureInfo (GML/XML) or ESRI REST JSON into Python dicts.
+    Supports MapServer's msGMLOutput (<*_feature>) and standard GML
+    (<gml:featureMember>).
     """
     text = content.decode("utf-8", errors="ignore")
     info_format = info_format.lower()
 
     try:
-        # ArcGIS REST JSON or GeoJSON
+        # ------------------------------------------------------------------
+        # JSON / ESRI
+        # ------------------------------------------------------------------
         if "json" in info_format:
             data = json.loads(text)
             features = []
 
-            # ESRI REST-style
+            # ESRI REST format
             if isinstance(data, dict) and "features" in data:
                 for feat in data["features"]:
                     attr = feat.get("attributes", {}) if isinstance(feat, dict) else {}
@@ -208,26 +214,53 @@ async def parse_wms_getfeatureinfo(content: bytes, info_format: str):
             # Plain array of features
             elif isinstance(data, list):
                 features = data
+
             else:
                 features = [data] if data else []
 
             return features
 
-        # GML/XML
+        # ------------------------------------------------------------------
+        # GML / XML
+        # ------------------------------------------------------------------
         elif "gml" in info_format or "xml" in info_format:
             root = ET.fromstring(text)
             ns = {"gml": "http://www.opengis.net/gml"}
             features = []
 
-            for feature_member in root.findall(".//gml:featureMember", ns):
-                feature_data = {}
-                for child in feature_member.iter():
-                    tag = child.tag.split("}", 1)[1] if "}" in child.tag else child.tag
-                    feature_data[tag] = child.text
-                features.append(feature_data)
+            # 1) Standard GML features: <gml:featureMember>
+            gml_feature_members = root.findall(".//gml:featureMember", ns)
+            for fm in gml_feature_members:
+                fdict = {}
+                for child in fm.iter():
+                    tag = child.tag.split("}", 1)[-1]
+                    if tag in ("boundedBy", "geometry", "Polygon", "MultiPolygon"):
+                        continue
+                    if child.text and child.text.strip():
+                        fdict[tag] = child.text.strip()
+                if fdict:
+                    features.append(fdict)
+
+            # 2) MapServer msGMLOutput features: <something_feature>
+            #    Example: <Eignungszonen_feature>
+            import re
+
+            for elem in root.iter():
+                if re.search(r"_feature$", elem.tag):
+                    fdict = {}
+                    for child in elem:
+                        tag = child.tag.split("}", 1)[-1]
+                        if tag in ("boundedBy", "geometry"):
+                            continue
+                        val = child.text.strip() if child.text else None
+                        if val:
+                            fdict[tag] = val
+                    if fdict:
+                        features.append(fdict)
 
             return features
 
+        # ------------------------------------------------------------------
         else:
             raise ValueError(f"Unsupported infoFormat: {info_format}")
 
