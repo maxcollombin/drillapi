@@ -357,7 +357,16 @@ def process_ground_category(
         last_value = None
 
         for feature in ground_features:
-            value = feature.get(property_name) if isinstance(feature, dict) else feature
+
+            if isinstance(feature, dict):
+                # ESRI REST feature: attributes inside 'attributes'
+                if "attributes" in feature and isinstance(feature["attributes"], dict):
+                    value = feature["attributes"].get(property_name)
+                else:
+                    value = feature.get(property_name)
+            else:
+                value = feature
+
             if not value:
                 continue
 
