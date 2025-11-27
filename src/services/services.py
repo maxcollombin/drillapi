@@ -3,6 +3,7 @@ import json
 import xml.etree.ElementTree as ET
 from fastapi import HTTPException
 import logging
+from owslib.etree import etree
 
 logger = logging.getLogger(__name__)
 
@@ -174,21 +175,25 @@ async def fetch_features_for_point(coord_x: float, coord_y: float, config: dict)
 
 
 # ============================================================
-# PARSE WMS OR ESRI JSON RESPONSES
+# PARSE WMS or REST responses
 # ============================================================
+
+
 async def parse_wms_getfeatureinfo(content: bytes, info_format: str):
     """
-    Unified parser for:
-    • ESRI REST (arcgis/json, application/json, json)
-    • WMS GetFeatureInfo (GML/XML)
-    • MapServer msGMLOutput (<*_feature>)
-    • Standard GML (<gml:featureMember>)
+    Fully unified parser for:
+    • ESRI REST  (arcgis/json, application/json, json)
+    • GeoJSON    (FeatureCollection, Feature)
+    • WMS GML    (gml:featureMember)
+    • MapServer  (msGMLOutput via <*_feature>)
+    • Fallbacks  (single object, list objects)
     """
+
     text = content.decode("utf-8", errors="ignore")
     info_format = (info_format or "").lower().strip()
 
     # ----------------------------------------------------------------------
-    # JSON / ESRI REST PARSING
+    # JSON / ESRI REST / GEOJSON PARSING
     # ----------------------------------------------------------------------
     if "json" in info_format or "arcgis" in info_format:
         try:
@@ -196,64 +201,89 @@ async def parse_wms_getfeatureinfo(content: bytes, info_format: str):
         except Exception as e:
             raise HTTPException(500, f"Invalid JSON: {e}")
 
-        features = []
+        # -------------------------------
+        # 1) GeoJSON FeatureCollection
+        # -------------------------------
+        if isinstance(data, dict) and data.get("type") == "FeatureCollection":
+            feats = []
+            for feat in data.get("features", []):
+                props = feat.get("properties", {})
+                if isinstance(props, dict):
+                    feats.append(props)
+            return feats
 
-        # (A) ArcGIS FeatureServer standard response
-        # ------------------------------------------------
+        # -------------------------------
+        # 2) GeoJSON single Feature
+        # -------------------------------
+        if isinstance(data, dict) and data.get("type") == "Feature":
+            props = data.get("properties", {})
+            return [props] if isinstance(props, dict) else [{}]
+
+        # -------------------------------
+        # 3) ArcGIS FeatureServer array
+        # -------------------------------
         if isinstance(data, dict) and "features" in data:
-            feats = data.get("features") or []  # may be null
-            for feat in feats:
-                if not isinstance(feat, dict):
-                    continue
+            feats = []
+            for feat in data.get("features") or []:
+                if isinstance(feat, dict):
+                    if isinstance(feat.get("attributes"), dict):
+                        feats.append(feat["attributes"])
+                    else:
+                        # flatten fallback
+                        feats.append(
+                            {k: v for k, v in feat.items() if not isinstance(v, dict)}
+                        )
+            return feats
 
-                # typical structure: { "attributes": {..}, "geometry": {...} }
-                if "attributes" in feat and isinstance(feat["attributes"], dict):
-                    features.append(feat["attributes"])
-                else:
-                    # fallback: flatten feature
-                    features.append(
-                        {k: v for k, v in feat.items() if not isinstance(v, dict)}
-                    )
-            return features
-
-        # (B) Single ESRI feature: { "attributes": {...} }
-        # ------------------------------------------------
-        if isinstance(data, dict) and "attributes" in data:
+        # -------------------------------
+        # 4) ArcGIS single element
+        # -------------------------------
+        if isinstance(data, dict) and isinstance(data.get("attributes"), dict):
             return [data["attributes"]]
 
-        # (C) Plain JSON list of objects
-        # ------------------------------------------------
+        # -------------------------------
+        # 5) Plain JSON array
+        # -------------------------------
         if isinstance(data, list):
             out = []
             for item in data:
-                if isinstance(item, dict) and "attributes" in item:
-                    out.append(item["attributes"])
+                if isinstance(item, dict):
+                    if "attributes" in item and isinstance(item["attributes"], dict):
+                        out.append(item["attributes"])
+                    elif "properties" in item and isinstance(item["properties"], dict):
+                        out.append(item["properties"])
+                    else:
+                        out.append(item)
                 else:
                     out.append(item)
             return out
 
-        # (D) fallback → return raw object
+        # -------------------------------
+        # 6) Fallback single object
+        # -------------------------------
         return [data]
 
     # ----------------------------------------------------------------------
-    # XML/GML WMS GetFeatureInfo PARSING
+    # GML / XML PARSING  (OWSLib-compatible)
     # ----------------------------------------------------------------------
     try:
-        root = ET.fromstring(text)
-    except Exception as e:
-        raise HTTPException(500, f"Invalid XML/GML: {e}")
+        root = etree.fromstring(text.encode("utf-8"))
+    except Exception:
+        try:
+            root = ET.fromstring(text)
+        except Exception as e:
+            raise HTTPException(500, f"Invalid XML/GML: {e}")
 
-    ns = {"gml": "http://www.opengis.net/gml"}
     features = []
+    ns = {"gml": "http://www.opengis.net/gml"}
 
     # ----------------------------------------------------------------------
-    # (1) Standard GML <gml:featureMember>
+    # 1) Standard GML <gml:featureMember>
     # ----------------------------------------------------------------------
     for fm in root.findall(".//gml:featureMember", ns):
         fdict = {}
         for el in fm.iter():
             tag = el.tag.split("}", 1)[-1]
-            # skip geometry
             if tag.lower() in ("boundedby", "geometry", "polygon", "multipolygon"):
                 continue
             if el.text and el.text.strip():
@@ -262,7 +292,7 @@ async def parse_wms_getfeatureinfo(content: bytes, info_format: str):
             features.append(fdict)
 
     # ----------------------------------------------------------------------
-    # (2) MapServer msGMLOutput  <*_feature>
+    # 2) MapServer msGMLOutput   <*_feature>
     # ----------------------------------------------------------------------
     import re
 
@@ -289,14 +319,31 @@ def process_ground_category(
     ground_features: list, config_layers: list, harmony_map: list
 ):
     """
-    Process raw features into harmonized ground category values per canton configuration.
-    Returns:
-        dict: {
-            "layer_results": [...],
-            "mapping_sum": int,
-            "harmonized_value": int
-        }
+    Reclass canton response into normalized values.
+    Special rule: if no ground_features at all, harmonized_value = 4.
     """
+
+    # -----------------------------------------------------------
+    # NEW RULE: No features → harmonized value = 4 (white category)
+    # -----------------------------------------------------------
+    if not ground_features:
+        fallback_feature = {"_no_feature_found": True, "value": None}
+        return {
+            "layer_results": [
+                {
+                    "layer": "fallback",
+                    "propertyName": None,
+                    "value": None,
+                    "summand": 0,
+                    "description": "No feature found at location",
+                }
+            ],
+            "mapping_sum": 0,
+            "harmonized_value": 4,
+            "ground_features": [fallback_feature],
+            "note": "No features found; fallback to harmonized category 4.",
+        }
+
     layer_results = []
     mapping_sum = 0
 
@@ -317,6 +364,7 @@ def process_ground_category(
             value = normalize_string(value)
             last_value = value
 
+            # exact match search
             for item in property_values:
                 if item.get("name") == value:
                     layer_summand += item.get("summand", 0)
@@ -335,13 +383,16 @@ def process_ground_category(
             }
         )
 
-    # Harmonization: map sum → harmonized value
-    harmonized_value = None
     if harmony_map:
         match = next((h["value"] for h in harmony_map if h["sum"] == mapping_sum), None)
-        harmonized_value = (
-            match if match is not None else (4 if mapping_sum == 0 else None)
-        )
+
+        if match is not None:
+            harmonized_value = match
+        else:
+            # JS fallback: sum=0 → 4
+            harmonized_value = 4 if mapping_sum == 0 else None
+    else:
+        harmonized_value = 4 if mapping_sum == 0 else None
 
     return {
         "layer_results": layer_results,

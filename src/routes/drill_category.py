@@ -34,24 +34,17 @@ async def get_drill_category(
     # --- Fetch features (WMS or ESRI REST) ---
     result = await services.fetch_features_for_point(coord_x, coord_y, canton_config)
     features = result["features"]
-    if not features:
-        status = "error"
-        result_detail = {
-            "message": "No features returned from WMS or ESRI service",
-            "full_url": result["full_url"],
-            "detail": result["error"],
-        }
-    else:
-        status = "success"
-        result_detail = {
-            "message": "Success",
-            "full_url": result["full_url"],
-            "detail": result["error"],
-        }
-        # --- Process features into ground category ---
-        features = services.process_ground_category(
-            features, canton_config["layers"], canton_config["harmonyMap"]
-        )
+
+    status = "success"
+    result_detail = {
+        "message": "Success",
+        "full_url": result["full_url"],
+        "detail": result["error"],
+    }
+    # --- Process features into ground category ---
+    features = services.process_ground_category(
+        features, canton_config["layers"], canton_config["harmonyMap"]
+    )
 
     return {
         "coord_x": coord_x,
