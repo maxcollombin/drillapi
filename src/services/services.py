@@ -24,15 +24,6 @@ def normalize_string(value: str) -> str:
         return value
 
 
-def normalize_feature(feat):
-    """
-    Normalize every string value in a feature dict.
-    """
-    if isinstance(feat, dict):
-        return {k: normalize_string(v) for k, v in feat.items()}
-    return normalize_string(feat)
-
-
 # ============================================================
 # CANTON LOOKUP (geo.admin.ch)
 # ============================================================
@@ -115,31 +106,38 @@ async def fetch_features_for_point(coord_x: float, coord_y: float, config: dict)
                     resp.raise_for_status()
 
                     data = resp.json()
-                    features_raw = data.get("features") or []
-
-                    for feat in features_raw:
-                        if isinstance(feat, dict) and "attributes" in feat:
-                            features.append(normalize_feature(feat["attributes"]))
+                    features = data.get("features") or []
 
             # ---------- WMS GetFeatureInfo ----------
             else:
-                delta = 10
-                bbox = f"{coord_x - delta},{coord_y - delta},{coord_x + delta},{coord_y + delta}"
+                delta = 10 
+                width = 101
+                height = 101
+
+                minx, miny = coord_x - delta, coord_y - delta
+                maxx, maxy = coord_x + delta, coord_y + delta
+                bbox = f"{minx},{miny},{maxx},{maxy}"
+
                 layers_list = ",".join([layer["name"] for layer in config["layers"]])
+
+                i = int((coord_x - minx) / (maxx - minx) * width)
+                j = int((maxy - coord_y) / (maxy - miny) * height)
+
                 params_wms = {
                     "SERVICE": "WMS",
                     "VERSION": "1.3.0",
                     "REQUEST": "GetFeatureInfo",
                     "QUERY_LAYERS": layers_list,
                     "LAYERS": layers_list,
-                    "INFO_FORMAT": config["infoFormat"],
-                    "I": "50",
-                    "J": "50",
+                    "INFO_FORMAT": config.get("infoFormat", "text/plain"),
+                    "I": str(i),
+                    "J": str(j),
                     "CRS": "EPSG:2056",
-                    "WIDTH": "101",
-                    "HEIGHT": "101",
+                    "WIDTH": str(width),
+                    "HEIGHT": str(height),
                     "BBOX": bbox,
-                    "STYLES": config["style"],
+                    "STYLES": config.get("style", ""),
+                    "FEATURE_COUNT": config.get("feature_count", 10),
                 }
 
                 wms_url = config["wmsUrl"]
