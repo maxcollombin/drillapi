@@ -126,7 +126,7 @@ CANTONS = {
                 [2676912, 1228091, 1, "mit Standardauflagen zulässig"],
                 [2684565, 1225437, 2, "mit spezifischen Auflagen zulässig"],
                 [2686680, 1226360, 3, "unzulässig"],
-                [2690680, 1219207, 4],
+                [2690680, 1219207, 4],  # Middle of the lake => empty features
             ],
             "wmsUrl": "https://services.geo.zg.ch:443/ows/Erdwaermenutzung",
             "legendUrl": "",
@@ -154,10 +154,10 @@ CANTONS = {
             "active": True,
             "name": "VS",
             "exampleLocation": [
-                [2578159, 1112802, 1, "CLASSGV 1"],
-                [2599307, 1125129, 1, "CLASSGV 2"],
-                [2599032, 1125930, 2, "CLASSGV 3"],
-                [2599214, 1120261, 3, "CLASSGV 4"],
+                [2596336, 1122359, 1, "CLASSGV 1"],
+                [2598146, 1124454, 1, "CLASSGV 2"],
+                [2598043, 1123873, 2, "CLASSGV 3"],
+                [2597117, 1120835, 3, "CLASSGV 4"],
                 [2598068.4, 1130927.1, 4, "CLASSGV 5"],
             ],
             "wmsUrl": "https://sit.vs.ch/arcgis/services/ENVIRONNEMENT/MapServer/WMSServer",
@@ -215,6 +215,7 @@ CANTONS = {
                 [2536682, 1156974, 1, "Admissible sous conditions"],
                 [2548704, 1168639, 2, "Limitation"],
                 [2535551, 1180721, 3, "Interdiction"],
+                [2535239, 1148966, 4],  # Middle of the lake, empty feature
             ],
             "wmsUrl": "https://www.ogc.vd.ch/public/services/OGC/wmsVD/Mapserver/WMSServer",
             "legendUrl": "https://www.ogc.vd.ch/public/services/OGC/wmsVD/Mapserver/WMSServer?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetLegendGraphic&FORMAT=image%2Fpng&LAYER=vd.admissibilite_indicative_sonde_geothermique",
@@ -253,7 +254,7 @@ CANTONS = {
             "exampleLocation": [
                 [2703052, 1180378, 1, "B"],
                 [2699152, 1175536, 2, "C"],
-                [2708687, 1186403, 3, "A"],
+                [2689034, 1196007, 3, "A"],
             ],
             "wmsUrl": "https://geo.ur.ch/webmercator/wms",
             "legendUrl": "",
