@@ -206,6 +206,7 @@ async def parse_wms_getfeatureinfo(content: bytes, info_format: str):
         # -------------------------------
         if isinstance(data, dict) and data.get("type") == "FeatureCollection":
             feats = []
+            print(data)
             for feat in data.get("features", []):
                 props = feat.get("properties", {})
                 if isinstance(props, dict):
@@ -312,49 +313,12 @@ async def parse_wms_getfeatureinfo(content: bytes, info_format: str):
     return features
 
 
-# ============================================================
-# PROCESS + HARMONIZE GROUND CATEGORIES
-# ============================================================
-def process_ground_category(
-    ground_features: list, config_layers: list, harmony_map: list
-):
-    """
-    Reclass canton response into normalized values.
-    Special rule: if no ground_features at all, harmonized_value = 4.
-    """
-
-    # -----------------------------------------------------------
-    # NEW RULE: No features → harmonized value = 4 (white category)
-    # -----------------------------------------------------------
-    if not ground_features:
-        fallback_feature = {"_no_feature_found": True, "value": None}
-        return {
-            "layer_results": [
-                {
-                    "layer": "fallback",
-                    "propertyName": None,
-                    "value": None,
-                    "summand": 0,
-                    "description": "No feature found at location",
-                }
-            ],
-            "mapping_sum": 0,
-            "harmonized_value": 4,
-            "ground_features": [fallback_feature],
-            "note": "No features found; fallback to harmonized category 4.",
-        }
-
-    layer_results = []
-    mapping_sum = 0
-
-
 def process_ground_category(
     ground_features: list, config_layers: list, harmony_map: list
 ):
     """
     Reclass canton response into normalized values.
     """
-
     # -----------------------------------------------------------
     # No features → harmonized value = 4
     # -----------------------------------------------------------
