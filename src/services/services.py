@@ -110,7 +110,7 @@ async def fetch_features_for_point(coord_x: float, coord_y: float, config: dict)
 
             # ---------- WMS GetFeatureInfo ----------
             else:
-                delta = 10 
+                delta = 10
                 width = 101
                 height = 101
 

@@ -46,7 +46,7 @@ CANTONS = {
             "exampleLocation": [
                 [2674790, 1259760, 2, "Auflagen & waermenutzung-zone-d"],
                 [2689003, 1274084, 3, "waermenutzung-zone-a"],
-                [2681001, 1260920 , 3, "waermenutzung-zone-b"],
+                [2681001, 1260920, 3, "waermenutzung-zone-b"],
                 [2689003, 1274084, 3, "waermenutzung-zone-c"],
                 [2684610, 1256659, 3, "waermenutzung-zone-d"],
                 [2684909, 1249849, 3, "waermenutzung-zone-e"],
