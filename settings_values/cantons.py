@@ -34,11 +34,6 @@ CANTONS = {
                     ],
                 },
             ],
-            "harmonyMap": [
-                {"sum": 1, "value": 1},
-                {"sum": 2, "value": 2},
-                {"sum": 3, "value": 3},
-            ],
         },
         "ZH": {
             "active": False,
@@ -144,11 +139,6 @@ CANTONS = {
                     ],
                 }
             ],
-            "harmonyMap": [
-                {"sum": 1, "value": 1},
-                {"sum": 2, "value": 2},
-                {"sum": 3, "value": 3},
-            ],
         },
         "VS": {
             "active": True,
@@ -201,12 +191,6 @@ CANTONS = {
                     ],
                 }
             ],
-            "harmonyMap": [
-                {"sum": 1, "value": 1},
-                {"sum": 2, "value": 2},
-                {"sum": 3, "value": 3},
-                {"sum": 4, "value": 4},
-            ],
         },
         "VD": {
             "active": True,
@@ -240,11 +224,6 @@ CANTONS = {
                         {"name": "Interdiction", "summand": 3},
                     ],
                 }
-            ],
-            "harmonyMap": [
-                {"sum": 1, "value": 1},
-                {"sum": 2, "value": 2},
-                {"sum": 3, "value": 3},
             ],
         },
         "UR": {
@@ -288,11 +267,6 @@ CANTONS = {
                     ],
                 }
             ],
-            "harmonyMap": [
-                {"sum": 1, "value": 1},
-                {"sum": 2, "value": 2},
-                {"sum": 3, "value": 3},
-            ],
         },
         "TI": {
             "active": True,
@@ -320,11 +294,6 @@ CANTONS = {
                         },
                     ],
                 }
-            ],
-            "harmonyMap": [
-                {"sum": 1, "value": 1},
-                {"sum": 2, "value": 2},
-                {"sum": 3, "value": 3},
             ],
         },
         "TG": {
@@ -374,11 +343,6 @@ CANTONS = {
                     ],
                 }
             ],
-            "harmonyMap": [
-                {"sum": 1, "value": 1},
-                {"sum": 2, "value": 2},
-                {"sum": 3, "value": 3},
-            ],
         },
         "SZ": {
             "active": True,
@@ -407,11 +371,6 @@ CANTONS = {
                         {"name": "nein", "desc": "nicht zulässig", "summand": 3},
                     ],
                 }
-            ],
-            "harmonyMap": [
-                {"sum": 1, "value": 1},
-                {"sum": 2, "value": 2},
-                {"sum": 3, "value": 3},
             ],
         },
         "SH": {
@@ -458,11 +417,6 @@ CANTONS = {
                     ],
                 }
             ],
-            "harmonyMap": [
-                {"sum": 1, "value": 1},
-                {"sum": 2, "value": 2},
-                {"sum": 3, "value": 3},
-            ],
         },
         "SG": {
             "active": True,
@@ -499,11 +453,6 @@ CANTONS = {
                         },
                     ],
                 }
-            ],
-            "harmonyMap": [
-                {"sum": 1, "value": 1},
-                {"sum": 2, "value": 2},
-                {"sum": 3, "value": 3},
             ],
         },
         "OW": {
@@ -561,11 +510,6 @@ CANTONS = {
                         },
                     ],
                 }
-            ],
-            "harmonyMap": [
-                {"sum": 1, "value": 1},
-                {"sum": 2, "value": 2},
-                {"sum": 3, "value": 3},
             ],
         },
         "NW": {
@@ -632,11 +576,6 @@ CANTONS = {
                     ],
                 }
             ],
-            "harmonyMap": [
-                {"sum": 1, "value": 1},
-                {"sum": 2, "value": 2},
-                {"sum": 3, "value": 3},
-            ],
         },
         "LU": {
             "active": True,
@@ -645,7 +584,12 @@ CANTONS = {
                 [2665393, 1217714, 1, "ews_zulaessig"],
                 [2652462, 1196901, 2, "ews_zulaessig & ews_zulaessig_auflagen"],
                 [2651972, 1200000, 3, "ews_nicht_zulaessig & ews_zulaessig_auflagen"],
-                [2645371, 1200735, 2, "ews_vorabklaeren"],
+                [
+                    2645371,
+                    1200735,
+                    2,
+                    "ews_vorabklaeren",
+                ],  # TODO: check with LU how to map lanslide areas
                 [2645598, 1202446, 3, "ews_nicht_zulaessig"],
             ],
             "wmsUrl": "https://public.geo.lu.ch/ogd/services/managed/EWNUTZXX_COL_V3_MP/MapServer/WMSServer",
@@ -654,29 +598,30 @@ CANTONS = {
             "infoFormat": "application/geo+json",
             "style": "",
             "loopLayers": True,
+            # no property values for this canton, only layers are matched if request hits a polygon
             "layers": [
                 {
                     "name": "3",
                     "desc": "ews_zulaessig",
-                    "propertyName": "Bewertungskriterium",
+                    "propertyName": "Erdwärmenutzung zulässig",
                     "summand": 1,
                 },
                 {
                     "name": "1",
                     "desc": "ews_vorabklaeren",
-                    "propertyName": "Bewertungskriterium",
+                    "propertyName": "Erdwärmenutzung zulässig mit Auflagen",
                     "summand": 2,
                 },
                 {
                     "name": "2",
                     "desc": "ews_zulaessig_auflagen",
-                    "propertyName": "Bewertungskriterium",
-                    "summand": 10,
+                    "propertyName": "Erdwärmenutzung zulässig mit Auflagen",
+                    "summand": 2,
                 },
                 {
                     "name": "0",
                     "desc": "ews_nicht_zulaessig",
-                    "propertyName": "Bewertungskriterium",
+                    "propertyName": "Erdwärmenutzung nicht zulässig",
                     "summand": 3,
                 },
             ],
@@ -713,11 +658,6 @@ CANTONS = {
                     ],
                 }
             ],
-            "harmonyMap": [
-                {"sum": 1, "value": 1},
-                {"sum": 2, "value": 2},
-                {"sum": 3, "value": 3},
-            ],
         },
         "GL": {
             "active": True,
@@ -741,7 +681,6 @@ CANTONS = {
                     ],
                 }
             ],
-            "harmonyMap": [{"sum": 2, "value": 2}, {"sum": 3, "value": 3}],
         },
         "GE": {
             "active": True,
@@ -781,11 +720,6 @@ CANTONS = {
                     ],
                 }
             ],
-            "harmonyMap": [
-                {"sum": 1, "value": 1},
-                {"sum": 2, "value": 2},
-                {"sum": 3, "value": 3},
-            ],
         },
         "FR": {
             "active": True,
@@ -820,11 +754,6 @@ CANTONS = {
                         {"name": "SGV interdites", "summand": 3},
                     ],
                 }
-            ],
-            "harmonyMap": [
-                {"sum": 1, "value": 1},
-                {"sum": 2, "value": 2},
-                {"sum": 3, "value": 3},
             ],
         },
         "BL": {
@@ -876,13 +805,6 @@ CANTONS = {
                     ],
                 }
             ],
-            "active": True,
-            "harmonyMap": [
-                {"sum": 1, "value": 1},
-                {"sum": 2, "value": 2},
-                {"sum": 3, "value": 3},
-                {"sum": 4, "value": 4},
-            ],
         },
         "BE": {
             "active": True,
@@ -923,11 +845,6 @@ CANTONS = {
                     ],
                 }
             ],
-            "harmonyMap": [
-                {"sum": 1, "value": 1},
-                {"sum": 2, "value": 2},
-                {"sum": 3, "value": 3},
-            ],
         },
         "AR": {
             "active": True,
@@ -966,11 +883,6 @@ CANTONS = {
                     ],
                 }
             ],
-            "harmonyMap": [
-                {"sum": 1, "value": 1},
-                {"sum": 2, "value": 2},
-                {"sum": 3, "value": 3},
-            ],
         },
         "AI": {
             "active": True,
@@ -998,11 +910,6 @@ CANTONS = {
                         {"name": "nicht zulässig (siehe Erläuterungen)", "summand": 3},
                     ],
                 }
-            ],
-            "harmonyMap": [
-                {"sum": 1, "value": 1},
-                {"sum": 2, "value": 2},
-                {"sum": 3, "value": 3},
             ],
         },
         "AG": {
@@ -1048,11 +955,6 @@ CANTONS = {
                         },
                     ],
                 }
-            ],
-            "harmonyMap": [
-                {"sum": 1, "value": 1},
-                {"sum": 2, "value": 2},
-                {"sum": 3, "value": 3},
             ],
         },
     }
