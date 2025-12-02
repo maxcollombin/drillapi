@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Request, Path, HTTPException
 from settings_values import cantons
-from src.services import services, security
+from src.services import processing, security
 from src.services.error_handler import handle_errors  # your decorator
 from src.config import settings
 import logging
@@ -20,7 +20,7 @@ async def get_drill_category(
     """Return ground category at a given coordinate using WMS GetFeatureInfo or ESRI REST feature service."""
 
     # --- Determine canton from coordinates ---
-    canton_result = services.get_canton_from_coordinates(coord_x, coord_y)
+    canton_result = processing.get_canton_from_coordinates(coord_x, coord_y)
     if not canton_result:
         raise HTTPException(404, detail="No canton found for these coordinates")
 
@@ -32,7 +32,7 @@ async def get_drill_category(
         )
 
     # --- Fetch features (WMS or ESRI REST) ---
-    result = await services.fetch_features_for_point(coord_x, coord_y, canton_config)
+    result = await processing.fetch_features_for_point(coord_x, coord_y, canton_config)
     features = result["features"]
 
     status = "success"
@@ -42,7 +42,7 @@ async def get_drill_category(
         "detail": result["error"],
     }
     # --- Process features into ground category ---
-    features = services.process_ground_category(features, canton_config["layers"])
+    features = processing.process_ground_category(features, canton_config["layers"])
 
     return {
         "coord_x": coord_x,
