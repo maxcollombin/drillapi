@@ -1,6 +1,9 @@
 from typing import List, Optional, Union
 from pydantic import BaseModel, HttpUrl, field_validator, ValidationError, conlist
 from settings_values.cantons import CANTONS
+from src.config import SettingsTest
+
+settings = SettingsTest()
 
 
 class PropertyValue(BaseModel):

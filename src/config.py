@@ -11,5 +11,12 @@ class Settings(BaseSettings):
     ALLOWED_ORIGINS: List[str]
     ENVIRONMENT: str
 
+# Define test variables here
+class SettingsTest(BaseSettings):
+    RATE_LIMIT: str = "1000/minute"
+    ALLOWED_IPS: List[str] = ["0.0.0.0"]
+    ALLOWED_ORIGINS: List[str] = ["0.0.0.0"]
+    ENVIRONMENT: str = "TEST"
+
 
 settings = Settings()

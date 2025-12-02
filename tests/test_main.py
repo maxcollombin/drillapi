@@ -11,6 +11,9 @@ from fastapi.testclient import TestClient
 from src.main import app
 from src.routes.cantons import get_cantons_data, filter_active_cantons
 
+from src.config import SettingsTest
+
+settings = SettingsTest()
 
 client = TestClient(app)
 
