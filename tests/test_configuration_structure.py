@@ -5,24 +5,24 @@ from settings_values.cantons import CANTONS
 
 class PropertyValue(BaseModel):
     name: str
-    summand: int
+    target_harmonized_value: int
 
 
 class Layer(BaseModel):
     name: str
-    propertyName: str
-    propertyValues: Optional[List[PropertyValue]] = None
-    summand: Optional[int] = None
+    property_name: str
+    property_values: Optional[List[PropertyValue]] = None
+    target_harmonized_value: Optional[int] = None
 
 
 class Cantonconfig(BaseModel):
     active: bool
     name: str
-    exampleLocation: List[List[Union[int, float, str]]]
-    wmsUrl: HttpUrl
+    ground_control_point: List[List[Union[int, float, str]]]
+    wms_url: HttpUrl
     thematic_geoportal_url: Optional[HttpUrl]
-    legendUrl: str
-    infoFormat: str
+    legend_url: str
+    info_format: str
     style: Optional[str]
     layers: List[Layer]
 
@@ -33,7 +33,7 @@ class Cantonconfig(BaseModel):
             raise ValueError("There must be at least one layer")
         return v
 
-    @field_validator("wmsUrl", "thematic_geoportal_url", mode="before")
+    @field_validator("wms_url", "thematic_geoportal_url", mode="before")
     @classmethod
     def allow_empty_urls(cls, v):
         if v == "":

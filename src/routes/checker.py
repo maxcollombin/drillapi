@@ -62,7 +62,7 @@ async def checker_websocket(ws: WebSocket):
 
         async with httpx.AsyncClient(base_url="http://localhost:8000") as client:
             for canton_code, data in config.items():
-                for location in data["exampleLocation"]:
+                for location in data["ground_control_point"]:
                     x = location[0]
                     y = location[1]
                     url = f"/v1/drill-category/{x}/{y}"

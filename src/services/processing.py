@@ -67,7 +67,7 @@ def get_canton_from_coordinates(coord_x: float, coord_y: float):
 async def fetch_features_for_point(coord_x: float, coord_y: float, config: dict):
     """
     Fetch features for a coordinate using either:
-      - ESRI REST Feature Service (infoFormat='arcgis/json'), or
+      - ESRI REST Feature Service (info_format='arcgis/json'), or
       - WMS GetFeatureInfo for other formats.
 
     Returns:
@@ -77,7 +77,7 @@ async def fetch_features_for_point(coord_x: float, coord_y: float, config: dict)
             "error": Optional[str]
         }
     """
-    info_format = config["infoFormat"].lower()
+    info_format = config["info_format"].lower()
     features = []
     full_url = ""
     error_message = None
@@ -92,7 +92,7 @@ async def fetch_features_for_point(coord_x: float, coord_y: float, config: dict)
                             "Layer config missing 'id' for ESRI REST service"
                         )
 
-                    esri_url = f"{config['wmsUrl'].rstrip('/')}/{layer_id}/query"
+                    esri_url = f"{config['wms_url'].rstrip('/')}/{layer_id}/query"
 
                     params = {
                         "geometry": f"{coord_x},{coord_y}",
@@ -131,7 +131,7 @@ async def fetch_features_for_point(coord_x: float, coord_y: float, config: dict)
                     "REQUEST": "GetFeatureInfo",
                     "QUERY_LAYERS": layers_list,
                     "LAYERS": layers_list,
-                    "INFO_FORMAT": config.get("infoFormat", "text/plain"),
+                    "INFO_FORMAT": config.get("info_format", "text/plain"),
                     "I": str(i),
                     "J": str(j),
                     "CRS": "EPSG:2056",
@@ -142,7 +142,7 @@ async def fetch_features_for_point(coord_x: float, coord_y: float, config: dict)
                     "FEATURE_COUNT": config.get("feature_count", 10),
                 }
 
-                wms_url = config["wmsUrl"]
+                wms_url = config["wms_url"]
                 try:
                     resp = await client.get(wms_url, params=params_wms)
                     full_url = str(resp.request.url)
@@ -158,7 +158,7 @@ async def fetch_features_for_point(coord_x: float, coord_y: float, config: dict)
 
                 try:
                     features = await parse_wms_getfeatureinfo(
-                        resp.content, config["infoFormat"]
+                        resp.content, config["info_format"]
                     )
                 except Exception as e:
                     error_message = f"Failed to parse WMS response: {e}"
@@ -286,8 +286,8 @@ def process_ground_category(
     #  - Some geoservices associate one layer to one category. In this case, layer names are compared, not attribute values
     for layer_cfg in config_layers:
         layer_name = layer_cfg.get("name")
-        property_name = layer_cfg.get("propertyName")
-        property_values = layer_cfg.get("propertyValues")
+        property_name = layer_cfg.get("property_name")
+        property_values = layer_cfg.get("property_values")
 
         description = None
 
@@ -307,19 +307,19 @@ def process_ground_category(
                     # Match with values for layers that have a defined mapping
 
                     if item.get("name") == value:
-                        mapped_values.append(item.get("summand"))
+                        mapped_values.append(item.get("target_harmonized_value"))
                         description = item.get("desc")
 
             # For some cantons, only the presence or absence of feature is used to define suitability
             else:
-                if layer_cfg.get("propertyName") == feature.get("layerName"):
-                    mapped_values.append(layer_cfg.get("summand"))
+                if layer_cfg.get("property_name") == feature.get("layerName"):
+                    mapped_values.append(layer_cfg.get("target_harmonized_value"))
 
         # Helping function to identify issues. Only "harmonized_value is useful for frontend application"
         layer_results.append(
             {
                 "layer": layer_name,
-                "propertyName": property_name,
+                "property_name": property_name,
                 "value": value,
                 "description": description,
             }
