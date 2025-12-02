@@ -273,9 +273,9 @@ CANTONS = {
         "TI": {
             "active": True,
             "name": "TI",
-            "ground_control_point": [[2715738, 1125797, 3], [2713214, 1131638, 1]],
+            "ground_control_point": [[2715738, 1125797, 3], [2712602, 1133130, 1]],
             "wms_url": "https://wms.geo.ti.ch/service",
-            "legend_url": "",
+            "legend_url": "https://www4.ti.ch/fileadmin/GENERALE/IGDAC/ccgeo/legends/ac_059_1_v1_0/ac_059_1_v1_0_idoneita_sonde_geotermiche_.png",
             "thematic_geoportal_url": "https://map.geo.ti.ch/?lang=it&baselayer_ref=Carta%20Nazionale%20%28bianco%20e%20nero%29&tree_group_layers_Idoneit%C3%A0%20sonde%20geotermiche=Idoneit%C3%A0%20sonde%20geotermiche&tree_groups=Idoneit%C3%A0%20sonde%20geotermiche",
             "info_format": "application/vnd.ogc.gml",
             "style": "",
@@ -666,7 +666,7 @@ CANTONS = {
             "name": "GL",
             "ground_control_point": [
                 [2724237, 1206147, 3, "Erdsondenausschlussgebiet"],
-                [2725831, 1215961, 2, "undefined"],
+                [2725831, 1215961, 4, "undefined"],
             ],
             "wms_url": "https://wms.geo.gl.ch/",
             "legend_url": "https://map.geo.gl.ch/api/v1/legend/mainmap?VERSION=1.3.0&SERVICE=WMS&REQUEST=GetLegendGraphic&FORMAT=image%2Fpng&CRS=EPSG%3A2056&SRS=EPSG%3A2056&SLD_VERSION=1.1.0&WIDTH=200&HEIGHT=200&LAYER=ch.gl.utilities.erdsondenausschlussbereich&FILTER=",
@@ -801,7 +801,6 @@ CANTONS = {
                         {
                             "name": "undefined",
                             "desc": "Fall A - Wärmenutzung durch Erdwärmesonden unzulässig",
-                            "warning": "!! Kann nicht abgefragt werden: erdwaerme_uebersicht_a",
                             "summand": 3,
                         },
                     ],
