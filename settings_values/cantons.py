@@ -17,18 +17,30 @@ CANTONS = {
                     "name": "eg38_geotherm_canepo_statut",
                     "property_name": "profondeur",
                     "property_values": [
-                        {"name": "mit Standardauflagen zulässig", "summand": 1},
-                        {"name": "mit spezifischen Auflagen zulässig", "summand": 2},
-                        {"name": "unzulässig", "summand": 3},
+                        {
+                            "name": "mit Standardauflagen zulässig",
+                            "target_harmonized_value": 1,
+                        },
+                        {
+                            "name": "mit spezifischen Auflagen zulässig",
+                            "target_harmonized_value": 2,
+                        },
+                        {"name": "unzulässig", "target_harmonized_value": 3},
                     ],
                 },
                 {
                     "name": "eg37_geotherm_zones_exclues",
                     "property_name": "profondeur",
                     "property_values": [
-                        {"name": "mit Standardauflagen zulässig", "summand": 1},
-                        {"name": "mit spezifischen Auflagen zulässig", "summand": 2},
-                        {"name": "unzulässig", "summand": 3},
+                        {
+                            "name": "mit Standardauflagen zulässig",
+                            "target_harmonized_value": 1,
+                        },
+                        {
+                            "name": "mit spezifischen Auflagen zulässig",
+                            "target_harmonized_value": 2,
+                        },
+                        {"name": "unzulässig", "target_harmonized_value": 3},
                     ],
                 },
             ],
@@ -55,40 +67,40 @@ CANTONS = {
                     "name": "erdwaermesonden-auflagen",
                     "property_name": "zonen",
                     "property_values": [
-                        {"name": "undefined", "summand": 0},
-                        {"name": "Auflagen", "summand": 1},
-                        {"name": "Verbot", "summand": 2},
+                        {"name": "undefined", "target_harmonized_value": 0},
+                        {"name": "Auflagen", "target_harmonized_value": 1},
+                        {"name": "Verbot", "target_harmonized_value": 2},
                     ],
                 },
                 {
                     "name": "waermenutzung-zone-a",
                     "property_name": "geodb_oid",
-                    "summand": 10,
+                    "target_harmonized_value": 10,
                 },
                 {
                     "name": "waermenutzung-zone-b",
                     "property_name": "geodb_oid",
-                    "summand": 20,
+                    "target_harmonized_value": 20,
                 },
                 {
                     "name": "waermenutzung-zone-c",
                     "property_name": "geodb_oid",
-                    "summand": 30,
+                    "target_harmonized_value": 30,
                 },
                 {
                     "name": "waermenutzung-zone-d",
                     "property_name": "geodb_oid",
-                    "summand": 40,
+                    "target_harmonized_value": 40,
                 },
                 {
                     "name": "waermenutzung-zone-e",
                     "property_name": "geodb_oid",
-                    "summand": 50,
+                    "target_harmonized_value": 50,
                 },
                 {
                     "name": "waermenutzung-zone-f",
                     "property_name": "geodb_oid",
-                    "summand": 60,
+                    "target_harmonized_value": 60,
                 },
             ],
             "harmonyMap": [
@@ -131,9 +143,15 @@ CANTONS = {
                     "name": "zg.ews_zulaessigkeit",
                     "property_name": "zulaessigkeit",
                     "property_values": [
-                        {"name": "mit Standardauflagen zulässig", "summand": 1},
-                        {"name": "mit spezifischen Auflagen zulässig", "summand": 2},
-                        {"name": "unzulässig", "summand": 3},
+                        {
+                            "name": "mit Standardauflagen zulässig",
+                            "target_harmonized_value": 1,
+                        },
+                        {
+                            "name": "mit spezifischen Auflagen zulässig",
+                            "target_harmonized_value": 2,
+                        },
+                        {"name": "unzulässig", "target_harmonized_value": 3},
                     ],
                 }
             ],
@@ -168,27 +186,27 @@ CANTONS = {
                         {
                             "name": "1",
                             "desc": "Sondes géothermiques admises (max. 200 m sans étude)",
-                            "summand": 1,
+                            "target_harmonized_value": 1,
                         },
                         {
                             "name": "2",
                             "desc": "Sondes géothermiques limitées à 100 m de profondeur",
-                            "summand": 1,
+                            "target_harmonized_value": 1,
                         },
                         {
                             "name": "3",
                             "desc": "Au cas par cas - Etude préalable (contacter le SEN)",
-                            "summand": 2,
+                            "target_harmonized_value": 2,
                         },
                         {
                             "name": "4",
                             "desc": "Sondes géothermiques interdites",
-                            "summand": 3,
+                            "target_harmonized_value": 3,
                         },
                         {
                             "name": "5",
                             "desc": "Hors zone (contacter le SEN)",
-                            "summand": 3,
+                            "target_harmonized_value": 3,
                         },
                     ],
                 }
@@ -213,17 +231,20 @@ CANTONS = {
                     "name": "vd.admissibilite_indicative_sonde_geothermique",
                     "property_name": "Type",
                     "property_values": [
-                        {"name": "Admissible sous conditions", "summand": 1},
+                        {
+                            "name": "Admissible sous conditions",
+                            "target_harmonized_value": 1,
+                        },
                         {
                             "name": "Admissible aux conditions standard, jusqu’à 300 mètres",
-                            "summand": 1,
+                            "target_harmonized_value": 1,
                         },
-                        {"name": "Limitation", "summand": 2},
+                        {"name": "Limitation", "target_harmonized_value": 2},
                         {
                             "name": "Limitation, soumis à des conditions spéciales",
-                            "summand": 2,
+                            "target_harmonized_value": 2,
                         },
-                        {"name": "Interdiction", "summand": 3},
+                        {"name": "Interdiction", "target_harmonized_value": 3},
                     ],
                 }
             ],
@@ -252,19 +273,19 @@ CANTONS = {
                             "name": "B",
                             "desc": "grüner Zulässigkeitsbereich",
                             "desc2": "Zulässig unter allgemeinen Auflagen",
-                            "summand": 1,
+                            "target_harmonized_value": 1,
                         },
                         {
                             "name": "C",
                             "desc": "gelber Zulässigkeitsbereich",
                             "desc2": "Zulässig unter zusätzlichen Schutzmassnahmen",
-                            "summand": 2,
+                            "target_harmonized_value": 2,
                         },
                         {
                             "name": "A",
                             "desc": "roter Zulässigkeitsbereich / nicht zulässig",
                             "desc2": "Nicht zulässig",
-                            "summand": 3,
+                            "target_harmonized_value": 3,
                         },
                     ],
                 }
@@ -287,12 +308,12 @@ CANTONS = {
                         {
                             "name": "In linea di principio non permesso",
                             "desc": "nicht zulässig",
-                            "summand": 3,
+                            "target_harmonized_value": 3,
                         },
                         {
                             "name": "In linea di principio permesso con condizioni",
                             "desc": "bedingt zulässig",
-                            "summand": 1,
+                            "target_harmonized_value": 1,
                         },
                     ],
                 }
@@ -330,17 +351,17 @@ CANTONS = {
                         {
                             "name": "1",
                             "desc": "EWS grundsätzlich zulässig mit Standardauflagen",
-                            "summand": 1,
+                            "target_harmonized_value": 1,
                         },
                         {
                             "name": "2",
                             "desc": "EWS grundsätzlich zulässig mit Standardauflagen",
-                            "summand": 2,
+                            "target_harmonized_value": 2,
                         },
                         {
                             "name": "3",
                             "desc": "EWS grundsätzlich unzulässig, Grundwasserschutzzone",
-                            "summand": 3,
+                            "target_harmonized_value": 3,
                         },
                     ],
                 }
@@ -364,13 +385,21 @@ CANTONS = {
                     "name": "ch.sz.a034c.waermenutzung.erdwaerme.technisch",
                     "property_name": "zulaessigkeit_cd",
                     "property_values": [
-                        {"name": "ja", "desc": "zulässig", "summand": 1},
+                        {
+                            "name": "ja",
+                            "desc": "zulässig",
+                            "target_harmonized_value": 1,
+                        },
                         {
                             "name": "Abklaerung_noetig",
                             "desc": "bedingt zulässig",
-                            "summand": 2,
+                            "target_harmonized_value": 2,
                         },
-                        {"name": "nein", "desc": "nicht zulässig", "summand": 3},
+                        {
+                            "name": "nein",
+                            "desc": "nicht zulässig",
+                            "target_harmonized_value": 3,
+                        },
                     ],
                 }
             ],
@@ -398,24 +427,28 @@ CANTONS = {
                         {
                             "name": "3",
                             "desc": "EWS bis 200 m Tiefe zulässig (über 200 m Vorabklärung notwendig)",
-                            "summand": 1,
+                            "target_harmonized_value": 1,
                         },
                         {
                             "name": "5",
                             "desc": "EWS mit Vorabklärung und fallweise geologischer Begleitung zulässig",
-                            "summand": 2,
+                            "target_harmonized_value": 2,
                         },
                         {
                             "name": "41",
                             "desc": "GWWN-Grossanlagen mit Gutachten zulässig (EWS auf Anfrage)",
-                            "summand": 2,
+                            "target_harmonized_value": 2,
                         },
                         {
                             "name": "42",
                             "desc": "GWWN-Grossanlagen mit Gutachten zulässig (Kurzsonden auf Anfrage)",
-                            "summand": 2,
+                            "target_harmonized_value": 2,
                         },
-                        {"name": "1", "desc": "EWS und GWWN unzulässig", "summand": 3},
+                        {
+                            "name": "1",
+                            "desc": "EWS und GWWN unzulässig",
+                            "target_harmonized_value": 3,
+                        },
                     ],
                 }
             ],
@@ -441,17 +474,17 @@ CANTONS = {
                         {
                             "name": "2",
                             "desc": "nicht zulässig (siehe Erläuterungen)",
-                            "summand": 3,
+                            "target_harmonized_value": 3,
                         },
                         {
                             "name": "3",
                             "desc": "zulässig (siehe Erläuterungen)",
-                            "summand": 1,
+                            "target_harmonized_value": 1,
                         },
                         {
                             "name": "1",
                             "desc": "bedingt zulässig (siehe Erläuterungen)",
-                            "summand": 2,
+                            "target_harmonized_value": 2,
                         },
                     ],
                 }
@@ -483,32 +516,32 @@ CANTONS = {
                         {
                             "name": "zulaessig",
                             "desc": "Wärmenutzung zulässig (Bewilligungspflicht)",
-                            "summand": 1,
+                            "target_harmonized_value": 1,
                         },
                         {
                             "name": "Auflage_GewaesserschutzbereichAu",
                             "desc": "Wärmenutzung zulässig (Bewilligungspflicht)",
-                            "summand": 1,
+                            "target_harmonized_value": 1,
                         },
                         {
                             "name": "Auflage_NutzungsgebietGrundwasser",
                             "desc": "Wärmenutzung zulässig (Bewilligungspflicht); Geologische Begleitung während der Bohrung erforderlich",
-                            "summand": 2,
+                            "target_harmonized_value": 2,
                         },
                         {
                             "name": "Auflage_bedingtzulaessig",
                             "desc": "Wärmenutzung bedingt zulässig (Bewilligungspflicht); vorgängiges geologisches Gutachten erforderlich als Grundlage zur Prüfung der Bewilligungsfähigkeit",
-                            "summand": 2,
+                            "target_harmonized_value": 2,
                         },
                         {
                             "name": "nichtzulaessig",
                             "desc": "Wärmenutzung nicht zulässig",
-                            "summand": 3,
+                            "target_harmonized_value": 3,
                         },
                         {
                             "name": "Gebiete_mit_potentieller_Verkarstung",
                             "desc": "Wärmenutzung nicht zulässig",
-                            "summand": 3,
+                            "target_harmonized_value": 3,
                         },
                     ],
                 }
@@ -542,38 +575,41 @@ CANTONS = {
                         {
                             "name": "bautechnisch_bauverbot",
                             "desc": "Wärmenutzung aus dem Untergrund verboten",
-                            "summand": 3,
+                            "target_harmonized_value": 3,
                         },
-                        {"name": "Trinkwasserschutzgebiet", "summand": 3},
+                        {
+                            "name": "Trinkwasserschutzgebiet",
+                            "target_harmonized_value": 3,
+                        },
                         {
                             "name": "nutzbare_Grundwassergebiete",
                             "desc": "Grundwassergebiet mit Erdsondenverbot",
-                            "summand": 3,
+                            "target_harmonized_value": 3,
                         },
                         {
                             "name": "bebaubares_Grundwassergebiet",
                             "desc": "Grundwassergebiet ohne Erdsondenverbot",
-                            "summand": 2,
+                            "target_harmonized_value": 2,
                         },
                         {
                             "name": "vermutlich_unproblematisch",
                             "desc": "Vermutlich unproblematische Untergrundverhältnisse",
-                            "summand": 2,
+                            "target_harmonized_value": 2,
                         },
                         {
                             "name": "problematisch",
                             "desc": "Unsichere Untergrundverhältnisse",
-                            "summand": 2,
+                            "target_harmonized_value": 2,
                         },
                         {
                             "name": "bautechnisch_problematisch",
                             "desc": "Bautechnisch problematische Untergrundverhältnisse",
-                            "summand": 2,
+                            "target_harmonized_value": 2,
                         },
                         {
                             "name": "unproblematisch",
                             "desc": "Unproblematische Untergrundverhältnisse",
-                            "summand": 1,
+                            "target_harmonized_value": 1,
                         },
                     ],
                 }
@@ -606,25 +642,25 @@ CANTONS = {
                     "name": "3",
                     "desc": "ews_zulaessig",
                     "property_name": "Erdwärmenutzung zulässig",
-                    "summand": 1,
+                    "target_harmonized_value": 1,
                 },
                 {
                     "name": "1",
                     "desc": "ews_vorabklaeren",
                     "property_name": "Erdwärmenutzung zulässig mit Auflagen",
-                    "summand": 2,
+                    "target_harmonized_value": 2,
                 },
                 {
                     "name": "2",
                     "desc": "ews_zulaessig_auflagen",
                     "property_name": "Erdwärmenutzung zulässig mit Auflagen",
-                    "summand": 2,
+                    "target_harmonized_value": 2,
                 },
                 {
                     "name": "0",
                     "desc": "ews_nicht_zulaessig",
                     "property_name": "Erdwärmenutzung nicht zulässig",
-                    "summand": 3,
+                    "target_harmonized_value": 3,
                 },
             ],
             "harmonyMap": [
@@ -654,9 +690,9 @@ CANTONS = {
                     "name": "Erdwaermenutzung_Zulaessigkeit",
                     "property_name": "zulaessigkeit",
                     "property_values": [
-                        {"name": "zulässig", "summand": 1},
-                        {"name": "bedingt zulässig", "summand": 2},
-                        {"name": "nicht zulässig", "summand": 3},
+                        {"name": "zulässig", "target_harmonized_value": 1},
+                        {"name": "bedingt zulässig", "target_harmonized_value": 2},
+                        {"name": "nicht zulässig", "target_harmonized_value": 3},
                     ],
                 }
             ],
@@ -678,8 +714,11 @@ CANTONS = {
                     "name": "ch.gl.utilities.erdsondenausschlussbereich",
                     "property_name": "art",
                     "property_values": [
-                        {"name": "undefined", "summand": 2},
-                        {"name": "Erdsondenausschlussgebiet", "summand": 3},
+                        {"name": "undefined", "target_harmonized_value": 2},
+                        {
+                            "name": "Erdsondenausschlussgebiet",
+                            "target_harmonized_value": 3,
+                        },
                     ],
                 }
             ],
@@ -714,11 +753,20 @@ CANTONS = {
                     "property_values": [
                         {
                             "name": "Sondes géothermiques verticales (système fermé)",
-                            "summand": 1,
+                            "target_harmonized_value": 1,
                         },
-                        {"name": "Demande de renseignement", "summand": 2},
-                        {"name": "Interdiction de géothermie", "summand": 3},
-                        {"name": "Géothermie sur nappe (système ouvert)", "summand": 3},
+                        {
+                            "name": "Demande de renseignement",
+                            "target_harmonized_value": 2,
+                        },
+                        {
+                            "name": "Interdiction de géothermie",
+                            "target_harmonized_value": 3,
+                        },
+                        {
+                            "name": "Géothermie sur nappe (système ouvert)",
+                            "target_harmonized_value": 3,
+                        },
                     ],
                 }
             ],
@@ -748,12 +796,12 @@ CANTONS = {
                     "property_name": "DA_SGV_DESC",
                     "property_name2": "Admissibilité",
                     "property_values": [
-                        {"name": "SGV autorisées", "summand": 1},
+                        {"name": "SGV autorisées", "target_harmonized_value": 1},
                         {
                             "name": "SGV avec demande préalable obligatoire",
-                            "summand": 2,
+                            "target_harmonized_value": 2,
                         },
-                        {"name": "SGV interdites", "summand": 3},
+                        {"name": "SGV interdites", "target_harmonized_value": 3},
                     ],
                 }
             ],
@@ -781,27 +829,27 @@ CANTONS = {
                         {
                             "name": "C",
                             "desc": "Fall C - Wärmenutzung durch Erdwärmesonden bis max. zulässige Bohrtiefe mit Standardauflagen möglich",
-                            "summand": 1,
+                            "target_harmonized_value": 1,
                         },
                         {
                             "name": "B",
                             "desc": "Fall B - Wärmenutzung durch Erdwärmesonden mit speziellen Auflagen möglich",
-                            "summand": 2,
+                            "target_harmonized_value": 2,
                         },
                         {
                             "name": "BC",
                             "desc": "Fall BC - Wärmenutzung durch Erdwärmesonden mit Standardauflagen für Schichten des Fall C, darunter bis max. zulässige Bohrtiefe Wärmenutzung mit spez. Auflagen",
-                            "summand": 1,
+                            "target_harmonized_value": 1,
                         },
                         {
                             "name": "nB",
                             "desc": "Fall nB - Gebiet wurde noch nicht bearbeitet",
-                            "summand": 4,
+                            "target_harmonized_value": 4,
                         },
                         {
                             "name": "undefined",
                             "desc": "Fall A - Wärmenutzung durch Erdwärmesonden unzulässig",
-                            "summand": 3,
+                            "target_harmonized_value": 3,
                         },
                     ],
                 }
@@ -827,21 +875,25 @@ CANTONS = {
                     "name": "ERDSOND_ERDSOND_VW_16828",
                     "property_name": "CODE",
                     "property_values": [
-                        {"name": "1", "desc": "Erdwärmesonden erlaubt", "summand": 1},
+                        {
+                            "name": "1",
+                            "desc": "Erdwärmesonden erlaubt",
+                            "target_harmonized_value": 1,
+                        },
                         {
                             "name": "2",
                             "desc": "Erdwärmesonden erlaubt - mit Tiefenbeschränkung",
-                            "summand": 1,
+                            "target_harmonized_value": 1,
                         },
                         {
                             "name": "3",
                             "desc": "Erdwärmesonden erlaubt - mit Auflagen",
-                            "summand": 2,
+                            "target_harmonized_value": 2,
                         },
                         {
                             "name": "4",
                             "desc": "Erdwärmesonden gem. BAFU-Richtlinie unzulässig (Erstbeurteilung)",
-                            "summand": 3,
+                            "target_harmonized_value": 3,
                         },
                     ],
                 }
@@ -865,22 +917,28 @@ CANTONS = {
                     "name": "ch.geoportal.ver_entsorgung_kommunikation.29.0.erdwaermesonden_kt",
                     "property_name": "Info",
                     "property_values": [
-                        {"name": "zulässig (siehe Erläuterungen)", "summand": 1},
-                        {"name": "zulässig", "summand": 1},
+                        {
+                            "name": "zulässig (siehe Erläuterungen)",
+                            "target_harmonized_value": 1,
+                        },
+                        {"name": "zulässig", "target_harmonized_value": 1},
                         {
                             "name": "bedingt zulässig (siehe Erläuterungen)",
-                            "summand": 2,
+                            "target_harmonized_value": 2,
                         },
                         {
                             "name": "bedingt zulässig aufgrund: Hydrogeologie",
-                            "summand": 2,
+                            "target_harmonized_value": 2,
                         },
                         {
                             "name": "bedingt zulässig aufgrund: Hydrogeologie, problematische Bohrung",
-                            "summand": 2,
+                            "target_harmonized_value": 2,
                         },
-                        {"name": "nicht zulässig (siehe Erläuterungen)", "summand": 3},
-                        {"name": "unzulässig", "summand": 3},
+                        {
+                            "name": "nicht zulässig (siehe Erläuterungen)",
+                            "target_harmonized_value": 3,
+                        },
+                        {"name": "unzulässig", "target_harmonized_value": 3},
                     ],
                 }
             ],
@@ -903,12 +961,18 @@ CANTONS = {
                     "name": "ch.geoportal.ver_entsorgung_kommunikation.29.0.erdwaermesonden_kt",
                     "property_name": "Info",
                     "property_values": [
-                        {"name": "zulässig (siehe Erläuterungen)", "summand": 1},
+                        {
+                            "name": "zulässig (siehe Erläuterungen)",
+                            "target_harmonized_value": 1,
+                        },
                         {
                             "name": "bedingt zulässig (siehe Erläuterungen)",
-                            "summand": 2,
+                            "target_harmonized_value": 2,
                         },
-                        {"name": "nicht zulässig (siehe Erläuterungen)", "summand": 3},
+                        {
+                            "name": "nicht zulässig (siehe Erläuterungen)",
+                            "target_harmonized_value": 3,
+                        },
                     ],
                 }
             ],
@@ -933,26 +997,30 @@ CANTONS = {
                     "name": "Eignung_Erdwärmenutzung55223",
                     "property_name": "G_Nutz_N",
                     "property_values": [
-                        {"name": "1", "desc": "EWS möglich", "summand": 1},
+                        {
+                            "name": "1",
+                            "desc": "EWS möglich",
+                            "target_harmonized_value": 1,
+                        },
                         {
                             "name": "2",
                             "desc": "EWS mit geologischer Begleitung möglich",
-                            "summand": 2,
+                            "target_harmonized_value": 2,
                         },
                         {
                             "name": "3",
                             "desc": "EWS mit geologischem Gutachten und geologischer Begleitung möglich",
-                            "summand": 2,
+                            "target_harmonized_value": 2,
                         },
                         {
                             "name": "4",
                             "desc": "Nur Grundwasserwärmepumpe möglich",
-                            "summand": 3,
+                            "target_harmonized_value": 3,
                         },
                         {
                             "name": "6",
                             "desc": "Keine Erdwärmenutzung möglich",
-                            "summand": 3,
+                            "target_harmonized_value": 3,
                         },
                     ],
                 }

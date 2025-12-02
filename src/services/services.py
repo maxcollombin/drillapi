@@ -307,13 +307,13 @@ def process_ground_category(
                     # Match with values for layers that have a defined mapping
 
                     if item.get("name") == value:
-                        mapped_values.append(item.get("summand"))
+                        mapped_values.append(item.get("target_harmonized_value"))
                         description = item.get("desc")
 
             # For some cantons, only the presence or absence of feature is used to define suitability
             else:
                 if layer_cfg.get("property_name") == feature.get("layerName"):
-                    mapped_values.append(layer_cfg.get("summand"))
+                    mapped_values.append(layer_cfg.get("target_harmonized_value"))
 
         # Helping function to identify issues. Only "harmonized_value is useful for frontend application"
         layer_results.append(

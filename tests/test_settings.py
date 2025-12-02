@@ -5,14 +5,14 @@ from settings_values.cantons import CANTONS
 
 class PropertyValue(BaseModel):
     name: str
-    summand: int
+    target_harmonized_value: int
 
 
 class Layer(BaseModel):
     name: str
     property_name: str
     property_values: Optional[List[PropertyValue]] = None
-    summand: Optional[int] = None
+    target_harmonized_value: Optional[int] = None
 
 
 class Cantonconfig(BaseModel):
