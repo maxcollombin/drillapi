@@ -20,7 +20,7 @@ async def get_drill_category(
     """Return ground category at a given coordinate using WMS GetFeatureInfo or ESRI REST feature service."""
 
     # --- Determine canton from coordinates ---
-    canton_result = processing.get_canton_from_coordinates(coord_x, coord_y)
+    canton_result = await processing.get_canton_from_coordinates(coord_x, coord_y)
     if not canton_result:
         raise HTTPException(404, detail="No canton found for these coordinates")
 
