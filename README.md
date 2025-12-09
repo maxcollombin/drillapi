@@ -2,8 +2,6 @@
 
 # drillapi - geothermal drilling
 
-⚠️this project is under construction ⚠️
-
 ***Query the cantonal geoservices to know whether a site in Switzerland is suitable for a geothermal drilling.***
 
 What does this [FastAPI](https://fastapi.tiangolo.com/) project do ?
@@ -11,12 +9,12 @@ What does this [FastAPI](https://fastapi.tiangolo.com/) project do ?
 - take x/y coordinates in EPSG:2056 on route ```/v1/x/y```
 - find in which canton the coordinates are and retrieve specific geoservice configuration
 - send request to corresponding cantonal geoservices, depending on location
-- process and reclass the results
+- process and reclass the results (1: OK, 2: With restriction, 3: Forbidden, 4: Unknown or Service Error)
 - return reponse used by [drill-frontend](https://github.com/sfOE/drill-frontend) vuejs web app
 
 ## Run
 
-This project runs in docker:
+This project can run in docker:
 
 ***Latest image***
 
@@ -67,6 +65,12 @@ Install dependencies
 
 ```bash
 pip install -r requirements.txt
+```
+
+For **dev** install dev requirements
+
+```bash
+pip install -r requirements_dev.txt
 ```
 
 Install pre-commit and activate it
@@ -134,6 +138,12 @@ http://127.0.0.1:8000/v1/cantons/NE
 ```
 
 ## Test
+
+Install dev requirements
+
+```bash
+pip install -r requirements_dev.txt
+```
 
 Run tests
 
