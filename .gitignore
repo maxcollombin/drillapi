@@ -7,7 +7,7 @@ __pycache__/
 # --- Virtual Environments ---
 venv/
 env/
-.venv/
+dev-venv
 
 # --- Distribution / Packaging ---
 build/

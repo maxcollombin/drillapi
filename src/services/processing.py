@@ -179,6 +179,7 @@ async def fetch_features_for_point(coord_x: float, coord_y: float, config: dict)
 # PARSE WMS or REST responses
 # ============================================================
 
+
 def parse_wms_getfeatureinfo(content: bytes, info_format: str, config: dict):
     """
     Parser for differents geoservices outputs

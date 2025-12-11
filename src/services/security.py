@@ -23,7 +23,9 @@ async def verify_ip(conn):
     Raises HTTP 403 if not allowed.
     """
     # Get the client IP (works behind proxies if you configure X-Forwarded-For)
-    client_ip = conn.client.host# We change to conn so that it accepts both Request and WebSocket 
+    client_ip = (
+        conn.client.host
+    )  # We change to conn so that it accepts both Request and WebSocket
     # Optional: check for headers if behind a proxy/load balancer
     # client_ip = request.headers.get("X-Forwarded-For", client_ip).split(",")[0].strip()
 
