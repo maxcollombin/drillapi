@@ -1,5 +1,5 @@
 # Use LOCAL_DEV=1 to run uvicorn for local deployment
-FROM public.ecr.aws/lambda/python:3.13
+FROM public.ecr.aws/lambda/python:3.14
 
 WORKDIR /app
 
