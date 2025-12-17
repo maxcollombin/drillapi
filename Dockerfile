@@ -11,5 +11,4 @@ RUN pip install --no-cache-dir -e .
 
 EXPOSE 8000
 
-# Use LOCAL_DEV=1 to run uvicorn for local deployment
 CMD ["drillapi.app.handler"]
